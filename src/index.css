@@ -1,0 +1,40 @@
+html,
+body,
+#root {
+  margin: 0;
+  height: 100%;
+}
+
+.card {
+  margin: 20px;
+  padding: 10px;
+  box-shadow: 0px 0px 10px #ccc;
+  min-height: 600px;
+}
+
+/* 左右浮动及清除浮动 */
+.float-left {
+  float: left;
+}
+.float-right {
+  float: right;
+}
+.clearfix:after {
+  content: '';
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+/* 若需要兼容ie6、7 加上以下代码 */
+.clearfix {
+  *zoom: 1;
+}
+
+/* 溢出隐藏 */
+.ellipsis {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
