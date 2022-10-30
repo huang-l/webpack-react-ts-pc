@@ -12,7 +12,7 @@ const lazyLoad = (childNode: ReactNode) => {
 
 const routeConfig = [
   {
-    path: '/*',
+    path: '/',
     element: <Layout />,
     children: [
       {
@@ -23,14 +23,14 @@ const routeConfig = [
         path: 'project',
         element: lazyLoad(<Project />),
       },
+      // 如果没有匹配到任何路由 就跳转根目录(或者404页面)  类似于重定向
+      { path: '*', element: <Navigate to="/" /> },
     ],
   },
   {
     path: '/projectConfig/:id',
     element: <ProjectConfig />,
   },
-  // 如果没有匹配到任何路由 就跳转根目录(或者404页面)  类似于重定向
-  { path: '*', element: <Navigate to="/" /> },
 ];
 
 export default routeConfig;

@@ -22,12 +22,11 @@ const MyLayout = () => {
 
   useEffect(() => {
     setSelectKey(location.pathname);
-  }, []);
+  }, [location.pathname]);
 
   const onMenuClick = (e: { key: string }) => {
     const { key } = e;
     navigate(key);
-    setSelectKey(key);
   };
 
   return (
