@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-
+import { debounce } from '@/util/commonService';
 import './Project.less';
 
 const Project = () => {
@@ -28,12 +28,19 @@ const Project = () => {
     navigate(`/projectConfig/${projectId}`);
   };
 
+  // 添加项目
+  const addProject = debounce(() => {
+    console.log(212);
+  }, 300);
+
   return (
     <div className="project-wrapper">
       <div className="project-header clearfix">
         <div className="float-left">项目</div>
         <div className="float-right">
-          <Button type="primary">添加项目</Button>
+          <Button type="primary" onClick={addProject}>
+            添加项目
+          </Button>
         </div>
       </div>
       <div className="project-content card">
