@@ -6,11 +6,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import { changeProjectList } from '@/store/modules/project/reducer';
 import { projectObj } from '@/interface/project';
 import ProjectAddModal from './ProjectAddModal';
+import { EditFilled, DeleteFilled } from '@ant-design/icons';
 
 import './Project.less';
 
 const Project = () => {
   let [isShowModal, setIsShowModal] = useState(false);
+  let [info, setInfo] = useState<projectObj>({});
 
   const list: Array<projectObj> = useSelector(
     (state: any) => state.project.projectList
@@ -20,6 +22,7 @@ const Project = () => {
 
   const componentWillUnmount = () => {
     [isShowModal, setIsShowModal] = [false, () => {}];
+    [info, setInfo] = [{}, () => {}];
   };
 
   useEffect(() => {
@@ -35,14 +38,39 @@ const Project = () => {
   // 添加项目
   const addProject = debounce(() => {
     setIsShowModal(true);
+    setInfo({});
   }, 300);
+
+  // 编辑项目
+  const editProject = (project: projectObj) => {
+    if (!project.id) return;
+    setIsShowModal(true);
+    setInfo(project);
+  };
+
+  // 删除项目
+  const deleteProject = (id: string) => {
+    if (!id) return;
+    const newList = list.filter((p) => p.id !== id);
+    dispatch(changeProjectList(newList));
+  };
 
   // 关闭弹窗 看是确认还是取消
   const changeShow = (type: string, param: any) => {
     if (type === 'ok') {
-      const id = list.length ? String(Number(list[0].id) + 1) : '1';
-      const project = { id, name: param.name };
-      const newList = [project].concat(list);
+      let newList = [];
+      if (!info?.id) {
+        const id = list.length ? String(Number(list[0].id) + 1) : '1';
+        const project = { id, name: param.name };
+        newList = [project, ...list];
+      } else {
+        newList = list.map((p) => {
+          if (p.id === info.id) {
+            p.name = param.name;
+          }
+          return p;
+        });
+      }
       dispatch(changeProjectList(newList));
     }
     setIsShowModal(false);
@@ -67,15 +95,32 @@ const Project = () => {
           ? list.map((project) => (
               <div className="project-item" key={project.id}>
                 <img className="item-img" src="/static/project.svg" />
-                <div className="item-txt ellipsis">
-                  <a onClick={() => goConfig(project.id)}>{project.name}</a>
+                <div className="item-txt clearfix">
+                  <a
+                    className="ellipsis item-name"
+                    onClick={() => goConfig(project.id as string)}
+                  >
+                    {project.name}
+                  </a>
+                  <span>
+                    <a className="mr-5" onClick={() => editProject(project)}>
+                      <EditFilled />
+                    </a>
+                    <a onClick={() => deleteProject(project.id as string)}>
+                      <DeleteFilled />
+                    </a>
+                  </span>
                 </div>
               </div>
             ))
           : '暂无数据'}
       </div>
       {isShowModal && (
-        <ProjectAddModal isShowModal={isShowModal} changeShow={changeShow} />
+        <ProjectAddModal
+          isShowModal={isShowModal}
+          info={info}
+          changeShow={changeShow}
+        />
       )}
     </div>
   );

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Spin, Modal, Button, Form, Input } from 'antd';
-import { debounce } from '@/util/commonService';
 
 interface interfaceProps {
   isShowModal: boolean;
   changeShow: Function;
+  info: any;
 }
 const ProjectAddModal = (props: interfaceProps) => {
-  const { isShowModal, changeShow } = props;
+  const { isShowModal, changeShow, info } = props;
+  const [form] = Form.useForm();
   let [loading, setLoading] = useState(false);
 
   const componentWillUnmount = () => {
@@ -15,6 +16,11 @@ const ProjectAddModal = (props: interfaceProps) => {
   };
 
   useEffect(() => {
+    if (info.id && info.name) {
+      form.setFieldsValue({
+        name: info.name,
+      });
+    }
     return componentWillUnmount;
   }, []);
 
@@ -29,7 +35,7 @@ const ProjectAddModal = (props: interfaceProps) => {
   return (
     <Spin spinning={loading}>
       <Modal
-        title="添加项目"
+        title={info.id ? '编辑项目' : '添加项目'}
         open={isShowModal}
         onCancel={handleCancel}
         maskClosable={false}
@@ -37,6 +43,7 @@ const ProjectAddModal = (props: interfaceProps) => {
       >
         <Form
           className="clearfix"
+          form={form}
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 14 }}
           onFinish={handleSubmit}
