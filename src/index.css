@@ -1,11 +1,9 @@
-html,
-body,
-#root {
+:global(#root) {
   margin: 0;
   height: 100%;
 }
 
-.card {
+:global(.card) {
   margin: 20px;
   padding: 10px;
   box-shadow: 0px 0px 10px #ccc;
@@ -13,13 +11,13 @@ body,
 }
 
 /* 左右浮动及清除浮动 */
-.float-left {
+:global(.float-left) {
   float: left;
 }
-.float-right {
+:global(.float-right) {
   float: right;
 }
-.clearfix:after {
+:global(.clearfix:after) {
   content: '';
   display: block;
   height: 0;
@@ -27,12 +25,12 @@ body,
   visibility: hidden;
 }
 /* 若需要兼容ie6、7 加上以下代码 */
-.clearfix {
+:global(.clearfix) {
   *zoom: 1;
 }
 
 /* 溢出隐藏 */
-.ellipsis {
+:global(.ellipsis) {
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
@@ -40,21 +38,21 @@ body,
 }
 
 /* 外边距 */
-.ml-5 {
+:global(.ml-5) {
   margin-left: 5px;
 }
-.ml-10 {
+:global(.ml-10) {
   margin-left: 10px;
 }
-.ml-20 {
+:global(.ml-20) {
   margin-left: 20px;
 }
-.mr-5 {
+:global(.mr-5) {
   margin-right: 5px;
 }
-.mr-10 {
+:global(.mr-10) {
   margin-right: 10px;
 }
-.mr-20 {
+:global(.mr-20) {
   margin-right: 20px;
 }

@@ -23,11 +23,29 @@ module.exports = {
       },
       {
         test: /\.css$/,
+        exclude: /node_modules/,
+        use: [
+          getLoader(),
+          { loader: 'css-loader', options: { modules: true } },
+          'postcss-loader',
+        ],
+      },
+      // 解决使用css modules时antd样式不生效
+      {
+        test: /\.css$/,
+        // 排除业务模块 其他模块都不采用css modules方式解析
+        exclude: /src/,
         use: [getLoader(), 'css-loader', 'postcss-loader'],
       },
       {
         test: /\.less$/,
-        use: [getLoader(), 'css-loader', 'postcss-loader', 'less-loader'],
+        exclude: /node_modules/,
+        use: [
+          getLoader(),
+          { loader: 'css-loader', options: { modules: true } },
+          'postcss-loader',
+          'less-loader',
+        ],
       },
       {
         test: /\.(png|svg|jpg|jpeg|gif)$/, //匹配图片

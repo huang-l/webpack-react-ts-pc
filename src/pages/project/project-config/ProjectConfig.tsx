@@ -5,7 +5,7 @@ import Page from './page/Page';
 import Main from './main/Main';
 import Control from './control/Control';
 
-import './ProjectConfig.less';
+import styles from './ProjectConfig.less';
 
 const ProjectConfig = () => {
   // 画布样式
@@ -19,9 +19,9 @@ const ProjectConfig = () => {
   };
 
   return (
-    <div className="edit-project-wrapper">
-      <div className="edit-project-header">
-        <span className="pull-left mr-10">头部</span>
+    <div className={styles['edit-project-wrapper']}>
+      <div className={styles['edit-project-header']}>
+        <span className="float-left mr-10">头部</span>
         <InputNumber
           placeholder="请输入宽度"
           value={canvasStyle.width}
@@ -35,14 +35,14 @@ const ProjectConfig = () => {
           onChange={(value) => changeCanvasStyle(value ?? 0, 'height')}
         />
       </div>
-      <div className="edit-project-main">
-        <div className="edit-project-left">
+      <div className={styles['edit-project-main']}>
+        <div className={styles['edit-project-left']}>
           <Page />
         </div>
-        <div className="edit-project-center">
+        <div className={styles['edit-project-center']}>
           <Main />
         </div>
-        <div className="edit-project-right">
+        <div className={styles['edit-project-right']}>
           <Control />
         </div>
       </div>

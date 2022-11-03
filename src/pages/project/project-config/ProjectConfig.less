@@ -4,8 +4,8 @@
     height: 48px;
     line-height: 48px;
     padding: 0 10px;
-    border-bottom: 1px solid #000;
     font-weight: bold;
+    box-shadow: 0 1px 1px #ccc;
   }
   .edit-project-main {
     height: calc(100% - 48px);
@@ -15,96 +15,18 @@
       float: left;
       width: 300px;
       height: 100%;
+      padding: 10px;
     }
     .edit-project-left {
-      border-right: 1px solid #000;
-      .menu-page {
-        height: 100%;
-        .menu-page-header {
-          height: 40px;
-          line-height: 40px;
-          padding: 0 10px;
-          border-bottom: 1px solid #000;
-        }
-        .menu-page-main {
-          height: calc(100% - 40px);
-          .menu-item {
-            height: 40px;
-            line-height: 40px;
-            padding: 0 10px;
-            &:hover {
-              color: #1890ff;
-              background: #e6f7ff;
-              cursor: pointer;
-            }
-          }
-          .menu-item-select {
-            color: #1890ff;
-            background: #e6f7ff;
-          }
-          .sub-menu {
-            .menu-item-title {
-              text-indent: 14px;
-              .sub-menu-icon {
-                margin-left: -28px;
-              }
-            }
-          }
-        }
-      }
+      box-shadow: 1px 0 1px #ccc;
     }
     .edit-project-center {
       width: calc(100% - 600px);
       margin: 0 auto;
-      padding: 10px;
-      overflow: auto;
-      .edit-main {
-        background: #ccc;
-        position: relative;
-        overflow: auto;
-        .edit-main-comp {
-          position: absolute;
-          width: 70px;
-          height: 70px;
-          border: 1px solid #000;
-          user-select: none;
-          cursor: pointer;
-          &:hover {
-            border-color: #1890ff;
-          }
-          .handle-rotate,
-          .handle-circle {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background-color: #1890ff;
-            border-radius: 50%;
-          }
-          .handle-rotate {
-            left: calc(50% - 5px);
-            top: -20px;
-            background-color: transparent;
-            border: 1px solid #1890ff;
-            cursor: alias;
-          }
-        }
-      }
+      overflow: hidden;
     }
     .edit-project-right {
-      border-left: 1px solid #000;
-      padding: 10px;
-      .edit-control {
-        height: 100%;
-        .component-item {
-          display: inline-block;
-          width: 70px;
-          height: 70px;
-          margin: 10px;
-          text-align: center;
-          line-height: 70px;
-          border: 1px solid #000;
-        }
-      }
+      box-shadow: -1px 0 1px #ccc;
     }
   }
 }

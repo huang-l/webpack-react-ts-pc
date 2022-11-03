@@ -8,7 +8,7 @@ import { projectObj } from '@/interface/project';
 import ProjectAddModal from './ProjectAddModal';
 import { EditFilled, DeleteFilled } from '@ant-design/icons';
 
-import './Project.less';
+import styles from './Project.less';
 
 const Project = () => {
   let [isShowModal, setIsShowModal] = useState(false);
@@ -77,8 +77,8 @@ const Project = () => {
   };
 
   return (
-    <div className="project-wrapper">
-      <div className="project-header clearfix">
+    <div className={styles['project-wrapper']}>
+      <div className={`${styles['project-header']} clearfix`}>
         <div className="float-left">项目</div>
         <div className="float-right">
           <Button
@@ -90,14 +90,14 @@ const Project = () => {
           </Button>
         </div>
       </div>
-      <div className="project-content card">
+      <div className={`${styles['project-content']} card`}>
         {list.length > 0
           ? list.map((project) => (
-              <div className="project-item" key={project.id}>
-                <img className="item-img" src="/static/project.svg" />
-                <div className="item-txt clearfix">
+              <div className={styles['project-item']} key={project.id}>
+                <img className={styles['item-img']} src="/static/project.svg" />
+                <div className={`${styles['item-txt']} clearfix`}>
                   <a
-                    className="ellipsis item-name"
+                    className={`ellipsis ${styles['item-name']}`}
                     onClick={() => goConfig(project.id as string)}
                   >
                     {project.name}
