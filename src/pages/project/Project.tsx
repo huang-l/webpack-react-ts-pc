@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { debounce } from '@/util/commonService';
@@ -11,23 +11,11 @@ import { EditFilled, DeleteFilled } from '@ant-design/icons';
 import styles from './Project.less';
 
 const Project = () => {
-  let [isShowModal, setIsShowModal] = useState(false);
-  let [info, setInfo] = useState<projectObj>({});
-
   const list: Array<projectObj> = useSelector(
     (state: any) => state.project.projectList
   );
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const componentWillUnmount = () => {
-    [isShowModal, setIsShowModal] = [false, () => {}];
-    [info, setInfo] = [{}, () => {}];
-  };
-
-  useEffect(() => {
-    return componentWillUnmount;
-  }, []);
 
   // 前往项目配置页
   const goConfig = (projectId: string) => {
@@ -37,15 +25,31 @@ const Project = () => {
 
   // 添加项目
   const addProject = debounce(() => {
-    setIsShowModal(true);
-    setInfo({});
+    ProjectAddModal.show('添加项目', 500, {}, (param: { name: string }) => {
+      const id = list.length ? String(Number(list[0].id) + 1) : '1';
+      const project = { id, name: param.name };
+      const newList = [project, ...list];
+      dispatch(changeProjectList(newList));
+    });
   }, 300);
 
   // 编辑项目
   const editProject = (project: projectObj) => {
     if (!project.id) return;
-    setIsShowModal(true);
-    setInfo(project);
+    ProjectAddModal.show(
+      '编辑项目',
+      500,
+      { project },
+      (param: { name: string }) => {
+        const newList = list.map((p) => {
+          if (p.id === project.id) {
+            p.name = param.name;
+          }
+          return p;
+        });
+        dispatch(changeProjectList(newList));
+      }
+    );
   };
 
   // 删除项目
@@ -53,27 +57,6 @@ const Project = () => {
     if (!id) return;
     const newList = list.filter((p) => p.id !== id);
     dispatch(changeProjectList(newList));
-  };
-
-  // 关闭弹窗 看是确认还是取消
-  const changeShow = (type: string, param: any) => {
-    if (type === 'ok') {
-      let newList = [];
-      if (!info?.id) {
-        const id = list.length ? String(Number(list[0].id) + 1) : '1';
-        const project = { id, name: param.name };
-        newList = [project, ...list];
-      } else {
-        newList = list.map((p) => {
-          if (p.id === info.id) {
-            p.name = param.name;
-          }
-          return p;
-        });
-      }
-      dispatch(changeProjectList(newList));
-    }
-    setIsShowModal(false);
   };
 
   return (
@@ -115,13 +98,6 @@ const Project = () => {
             ))
           : '暂无数据'}
       </div>
-      {isShowModal && (
-        <ProjectAddModal
-          isShowModal={isShowModal}
-          info={info}
-          changeShow={changeShow}
-        />
-      )}
     </div>
   );
 };

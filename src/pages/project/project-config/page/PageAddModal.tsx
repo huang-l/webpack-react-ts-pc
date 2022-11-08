@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Spin, Button, Form, Input } from 'antd';
 import useModal from '@/hook/useModal';
 
-const ProjectAddModal = (props: any) => {
+const PageAddModal = (props: any) => {
   const [form] = Form.useForm();
   let [loading, setLoading] = useState(false);
 
@@ -11,10 +11,10 @@ const ProjectAddModal = (props: any) => {
   };
 
   useEffect(() => {
-    const { project } = props.winData;
-    if (project?.id) {
+    const { page } = props.winData;
+    if (page?.id) {
       form.setFieldsValue({
-        name: project.name,
+        name: page.name,
       });
     }
     return componentWillUnmount;
@@ -36,10 +36,10 @@ const ProjectAddModal = (props: any) => {
       >
         <Form.Item
           name="name"
-          label="项目名称"
-          rules={[{ required: true, message: '请输入项目名称' }]}
+          label="页面名称"
+          rules={[{ required: true, message: '请输入页面名称' }]}
         >
-          <Input placeholder="请输入项目名称" />
+          <Input placeholder="请输入页面名称" />
         </Form.Item>
         <Button className="float-right" type="primary" htmlType="submit">
           确认
@@ -56,4 +56,4 @@ const ProjectAddModal = (props: any) => {
   );
 };
 
-export default useModal(ProjectAddModal);
+export default useModal(PageAddModal);
