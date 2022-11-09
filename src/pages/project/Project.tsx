@@ -27,7 +27,7 @@ const Project = () => {
   const addProject = debounce(() => {
     ProjectAddModal.show('添加项目', 500, {}, (param: { name: string }) => {
       const id = list.length ? String(Number(list[0].id) + 1) : '1';
-      const project = { id, name: param.name };
+      const project = { id, ...param };
       const newList = [project, ...list];
       dispatch(changeProjectList(newList));
     });
@@ -35,7 +35,6 @@ const Project = () => {
 
   // 编辑项目
   const editProject = (project: projectObj) => {
-    if (!project.id) return;
     ProjectAddModal.show(
       '编辑项目',
       500,

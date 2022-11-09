@@ -1,15 +1,53 @@
-import React, { FC, memo, useState } from 'react';
+import React, { memo } from 'react';
 import { Dropdown, Menu } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import CatalogAddModal from './CatalogAddModal';
 import PageAddModal from './PageAddModal';
-import useModal from '@/hook/useModal';
+import { catalogObj, pageObj } from '@/interface/project';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  changeCatalogList,
+  changePageList,
+} from '@/store/modules/project/reducer';
 import styles from './Page.less';
+import { useParams } from 'react-router-dom';
 
 const Page = () => {
+  const params = useParams();
+  const projectId = params.id as string;
+  const cList: Array<catalogObj> = useSelector(
+    (state: any) => state.project.catalogList
+  );
+  const pList: Array<pageObj> = useSelector(
+    (state: any) => state.project.pageList
+  );
+  const dispatch = useDispatch();
+  // 目录添加成功
+  const handleAddCatalogOk = (param: { name: string; isPage: boolean }) => {
+    const id = cList.length ? String(Number(cList[0].id) + 1) : '1';
+    const catalog = { id, ...param, projectId };
+    const newList = [catalog, ...cList];
+    dispatch(changeCatalogList(newList));
+  };
+  // 页面添加成功
+  const handleAddPageOk = (param: {
+    name: string;
+    isMenu: boolean;
+    isDialog: boolean;
+  }) => {
+    const id = pList.length ? String(Number(pList[0].id) + 1) : '1';
+    const page = { id, ...param, projectId };
+    const newList = [page, ...pList];
+    dispatch(changePageList(newList));
+  };
+  // 添加目录、页面
   const handleClick = (e: { key: string }) => {
     const { key } = e;
-    console.log(key);
+    if (key === 'catalog') {
+      CatalogAddModal.show('添加目录', 500, {}, handleAddCatalogOk);
+    } else {
+      PageAddModal.show('添加页面', 500, {}, handleAddPageOk);
+    }
   };
 
   /*

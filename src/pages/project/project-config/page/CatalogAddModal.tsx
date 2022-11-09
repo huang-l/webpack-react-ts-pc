@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Spin, Button, Form, Input } from 'antd';
+import { Spin, Button, Form, Input, Radio } from 'antd';
 import useModal from '@/hook/useModal';
 
 const CatalogAddModal = (props: any) => {
@@ -24,6 +24,11 @@ const CatalogAddModal = (props: any) => {
     props.onOk(fieldValue);
   };
 
+  const options = [
+    { label: '是', value: true },
+    { label: '否', value: false },
+  ];
+
   return (
     <Spin spinning={loading}>
       <Form
@@ -40,6 +45,9 @@ const CatalogAddModal = (props: any) => {
           rules={[{ required: true, message: '请输入目录名称' }]}
         >
           <Input placeholder="请输入目录名称" />
+        </Form.Item>
+        <Form.Item name="isPage" label="是否为页面目录" initialValue={false}>
+          <Radio.Group options={options} />
         </Form.Item>
         <Button className="float-right" type="primary" htmlType="submit">
           确认

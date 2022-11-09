@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal } from 'react-dom';
+import ReactDom from 'react-dom/client';
 import { Modal } from 'antd';
 // 用来处理弹窗组件
 const useModal: any = (ModalComponent: FC) => {
@@ -19,7 +20,9 @@ const useModal: any = (ModalComponent: FC) => {
       </Modal>
     );
   }
-  let container: any = null;
+  let container: HTMLDivElement | null = null;
+  let root: any;
+  let modal = document.getElementById('modal') as HTMLElement;
   /**
    * @params title 标题
    * @params width 宽度
@@ -37,12 +40,11 @@ const useModal: any = (ModalComponent: FC) => {
     if (!container) {
       container = document.createElement('div');
     }
-    document.body.appendChild(container);
+    modal.appendChild(container);
     const params = { title, width, winData };
     function closeHandle() {
       if (container && container.tagName.toUpperCase() === 'DIV') {
-        ReactDOM.unmountComponentAtNode(container);
-        document.body.removeChild(container);
+        root.unmount();
       }
       container = null;
     }
@@ -56,21 +58,23 @@ const useModal: any = (ModalComponent: FC) => {
       onOk?.(...params);
       closeHandle();
     }
-    ReactDOM.render(
-      <WrapComponent
-        {...params}
-        onOk={OkHandle}
-        onCancel={cancelHandle}
-        onClose={closeHandle}
-      />,
-      container
+    root = ReactDom.createRoot(modal);
+    root.render(
+      createPortal(
+        <WrapComponent
+          {...params}
+          onOk={OkHandle}
+          onCancel={cancelHandle}
+          onClose={closeHandle}
+        />,
+        container
+      )
     );
   };
 
   WrapComponent.hide = () => {
     if (container && container.tagName.toUpperCase() === 'DIV') {
-      ReactDOM.unmountComponentAtNode(container);
-      document.body.removeChild(container);
+      root.unmount();
     }
     container = null;
   };
