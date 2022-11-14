@@ -56,3 +56,12 @@
 :global(.mr-20) {
   margin-right: 20px;
 }
+
+/* 文本溢出省略 */
+:global(.text-ellipsis) {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  text-overflow: ellipsis;
+}

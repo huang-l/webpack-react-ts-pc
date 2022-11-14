@@ -1,8 +1,29 @@
-.page-header {
-  height: 48px;
-  line-height: 48px;
-  padding: 0 10px;
-  font-size: 20px;
-  font-weight: bold;
-  box-shadow: 0 1px 1px #ccc;
+.page-wrapper {
+  height: 300px;
+  .page-header {
+    height: 48px;
+    line-height: 48px;
+    padding: 0 10px;
+    font-size: 20px;
+    font-weight: bold;
+    box-shadow: 0 1px 1px #ccc;
+  }
+  .page-content {
+    height: 242px;
+    overflow: auto;
+    .page-item {
+      height: 48px;
+      line-height: 48px;
+      padding: 0 10px;
+      .page-title {
+        width: 80%;
+      }
+      &:hover {
+        background: #a8ccef;
+      }
+    }
+    .page-active {
+      background: #a8ccef;
+    }
+  }
 }

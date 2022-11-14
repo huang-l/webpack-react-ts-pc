@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Spin, Button, Form, Input, Radio } from 'antd';
 import useModal from '@/hook/useModal';
+import { confirmTypes } from '../../businessTypes';
 
 const CatalogAddModal = (props: any) => {
   const [form] = Form.useForm();
@@ -11,10 +12,11 @@ const CatalogAddModal = (props: any) => {
   };
 
   useEffect(() => {
-    const { catalog } = props.winData;
-    if (catalog?.id) {
+    const { catalogInfo } = props.winData;
+    if (catalogInfo?.id) {
       form.setFieldsValue({
-        name: catalog.name,
+        name: catalogInfo.name,
+        isPage: catalogInfo.isPage,
       });
     }
     return componentWillUnmount;
@@ -23,11 +25,6 @@ const CatalogAddModal = (props: any) => {
   const handleSubmit = (fieldValue: any) => {
     props.onOk(fieldValue);
   };
-
-  const options = [
-    { label: '是', value: true },
-    { label: '否', value: false },
-  ];
 
   return (
     <Spin spinning={loading}>
@@ -47,7 +44,13 @@ const CatalogAddModal = (props: any) => {
           <Input placeholder="请输入目录名称" />
         </Form.Item>
         <Form.Item name="isPage" label="是否为页面目录" initialValue={false}>
-          <Radio.Group options={options} />
+          <Radio.Group>
+            {confirmTypes.map((item) => (
+              <Radio key={`${item.key}`} value={item.key}>
+                {item.value}
+              </Radio>
+            ))}
+          </Radio.Group>
         </Form.Item>
         <Button className="float-right" type="primary" htmlType="submit">
           确认

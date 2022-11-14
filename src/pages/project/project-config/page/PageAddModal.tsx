@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Spin, Button, Form, Input } from 'antd';
+import { Spin, Button, Form, Input, Radio } from 'antd';
 import useModal from '@/hook/useModal';
+import { confirmTypes } from '../../businessTypes';
 
 const PageAddModal = (props: any) => {
   const [form] = Form.useForm();
@@ -11,10 +12,12 @@ const PageAddModal = (props: any) => {
   };
 
   useEffect(() => {
-    const { page } = props.winData;
-    if (page?.id) {
+    const { pageInfo } = props.winData;
+    if (pageInfo?.id) {
       form.setFieldsValue({
-        name: page.name,
+        name: pageInfo.name,
+        isMenu: pageInfo.isMenu,
+        isDialog: pageInfo.isDialog,
       });
     }
     return componentWillUnmount;
@@ -40,6 +43,40 @@ const PageAddModal = (props: any) => {
           rules={[{ required: true, message: '请输入页面名称' }]}
         >
           <Input placeholder="请输入页面名称" />
+        </Form.Item>
+        <Form.Item noStyle shouldUpdate>
+          {({ getFieldValue }) => (
+            <Form.Item
+              name="isMenu"
+              label="是否为菜单页面"
+              initialValue={false}
+            >
+              <Radio.Group disabled={getFieldValue('isDialog')}>
+                {confirmTypes.map((item) => (
+                  <Radio key={`${item.key}`} value={item.key}>
+                    {item.value}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            </Form.Item>
+          )}
+        </Form.Item>
+        <Form.Item noStyle shouldUpdate>
+          {({ getFieldValue }) => (
+            <Form.Item
+              name="isDialog"
+              label="是否为弹窗页面"
+              initialValue={false}
+            >
+              <Radio.Group disabled={getFieldValue('isMenu')}>
+                {confirmTypes.map((item) => (
+                  <Radio key={`${item.key}`} value={item.key}>
+                    {item.value}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            </Form.Item>
+          )}
         </Form.Item>
         <Button className="float-right" type="primary" htmlType="submit">
           确认
