@@ -16,16 +16,24 @@ const CatalogAddModal = (props: any) => {
     if (catalogInfo?.id) {
       form.setFieldsValue({
         name: catalogInfo.name,
+        isMenu: catalogInfo.isMenu,
         isPage: catalogInfo.isPage,
       });
     }
     return componentWillUnmount;
   }, []);
 
+  // 修改是否为页面时 若不是页面则将菜单变为选中
+  const changeIsPage = (val: boolean) => {
+    if (!val) {
+      const isMenu = form.getFieldValue('isMenu');
+      !isMenu && form.setFieldsValue({ isMenu: true });
+    }
+  };
+
   const handleSubmit = (fieldValue: any) => {
     props.onOk(fieldValue);
   };
-
   return (
     <Spin spinning={loading}>
       <Form
@@ -43,14 +51,31 @@ const CatalogAddModal = (props: any) => {
         >
           <Input placeholder="请输入目录名称" />
         </Form.Item>
-        <Form.Item name="isPage" label="是否为页面目录" initialValue={false}>
-          <Radio.Group>
+        <Form.Item name="isPage" label="是否为页面目录" initialValue={true}>
+          <Radio.Group onChange={(e) => changeIsPage(e.target.value)}>
             {confirmTypes.map((item) => (
               <Radio key={`${item.key}`} value={item.key}>
                 {item.value}
               </Radio>
             ))}
           </Radio.Group>
+        </Form.Item>
+        <Form.Item noStyle shouldUpdate>
+          {({ getFieldValue }) => (
+            <Form.Item
+              name="isMenu"
+              label="是否为菜单目录"
+              initialValue={false}
+            >
+              <Radio.Group disabled={!getFieldValue('isPage')}>
+                {confirmTypes.map((item) => (
+                  <Radio key={`${item.key}`} value={item.key}>
+                    {item.value}
+                  </Radio>
+                ))}
+              </Radio.Group>
+            </Form.Item>
+          )}
         </Form.Item>
         <Button className="float-right" type="primary" htmlType="submit">
           确认

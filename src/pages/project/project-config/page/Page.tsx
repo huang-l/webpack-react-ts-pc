@@ -1,5 +1,13 @@
 import React, { memo } from 'react';
-import { PlusOutlined, EditOutlined, DeleteOutlined } from '@ant-design/icons';
+import {
+  PlusOutlined,
+  EditOutlined,
+  DeleteOutlined,
+  ProfileOutlined,
+  FileTextOutlined,
+  FileOutlined,
+  MessageOutlined,
+} from '@ant-design/icons';
 import CatalogAddModal from './CatalogAddModal';
 import PageAddModal from './PageAddModal';
 import { catalogObj, pageObj } from '@/interface/project';
@@ -13,9 +21,8 @@ import { useParams } from 'react-router-dom';
 
 /**
  * 一个平台 有目录、页面
- * 目录可以是页面(用以当几个页面的父级页面) 可以是非页面(仅仅用来做菜单显示模块)
- * 页面也可分为菜单页(点左侧菜单栏直接跳转)和非菜单页(左侧菜单栏不存在)
- * 弹窗也需要做成页面
+ * 目录可以是页面(用以当几个页面的父级页面 可以是菜单和非菜单) 可以是非页面(仅仅用来做菜单显示模块)
+ * 页面也可分为菜单页(点左侧菜单栏直接跳转)和非菜单页(左侧菜单栏不存在) 弹窗需要做成页面
  */
 
 const Page = () => {
@@ -29,7 +36,11 @@ const Page = () => {
   );
   const dispatch = useDispatch();
   // 目录、页面添加成功
-  const handleAddCatalogOk = (param: { name: string; isPage: boolean }) => {
+  const handleAddCatalogOk = (param: {
+    name: string;
+    isMenu: boolean;
+    isPage: boolean;
+  }) => {
     const id = cList.length ? String(Number(cList[0].id) + 1) : '1';
     const catalog = { id, ...param, projectId };
     const newList = [catalog, ...cList];
@@ -55,12 +66,13 @@ const Page = () => {
   };
   // 编辑目录成功
   const handleEditCatalogOk = (
-    param: { name: string; isPage: boolean },
+    param: { name: string; isMenu: boolean; isPage: boolean },
     id: string
   ) => {
     const newList = cList.map((item) => {
       if (item.id === id) {
         item.name = param.name;
+        item.isMenu = param.isMenu;
         item.isPage = param.isPage;
       }
       return item;
@@ -88,7 +100,7 @@ const Page = () => {
         '编辑目录',
         500,
         { catalogInfo: info },
-        (param: { name: string; isPage: boolean }) =>
+        (param: { name: string; isMenu: boolean; isPage: boolean }) =>
           handleEditCatalogOk(param, info.id)
       );
     } else {
@@ -126,12 +138,23 @@ const Page = () => {
           </div>
           <div className={styles['page-content']}>
             {(type === 'page' ? pList : cList)?.map((item) => {
+              let icon =
+                type === 'page' ? <FileTextOutlined /> : <FileOutlined />;
+              if (type === 'catalog' && item.isMenu) {
+                const page = item as catalogObj;
+                icon = page.isPage ? <FileTextOutlined /> : <ProfileOutlined />;
+              }
+              if (type === 'page' && !item.isMenu) {
+                const page = item as pageObj;
+                icon = page.isDialog ? <MessageOutlined /> : <FileOutlined />;
+              }
               return (
                 <div
                   key={item.id}
                   className={`${styles['page-item']} clearfix`}
                 >
                   <span className={`text-ellipsis ${styles['page-title']}`}>
+                    <span className="mr-5">{icon}</span>
                     {item.name}
                   </span>
                   <span className="float-right">

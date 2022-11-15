@@ -7,6 +7,7 @@ export interface projectObj {
 export interface catalogObj {
   id: string;
   name: string;
+  isMenu: boolean;
   isPage: boolean;
   projectId: string;
 }
