@@ -16,7 +16,7 @@ const PageAddModal = (props: any) => {
     if (pageInfo?.id) {
       form.setFieldsValue({
         name: pageInfo.name,
-        isMenu: pageInfo.isMenu,
+        isParent: pageInfo.isParent,
         isDialog: pageInfo.isDialog,
       });
     }
@@ -47,8 +47,8 @@ const PageAddModal = (props: any) => {
         <Form.Item noStyle shouldUpdate>
           {({ getFieldValue }) => (
             <Form.Item
-              name="isMenu"
-              label="是否为菜单页面"
+              name="isParent"
+              label="是否为父级页面"
               initialValue={false}
             >
               <Radio.Group disabled={getFieldValue('isDialog')}>
@@ -68,7 +68,7 @@ const PageAddModal = (props: any) => {
               label="是否为弹窗页面"
               initialValue={false}
             >
-              <Radio.Group disabled={getFieldValue('isMenu')}>
+              <Radio.Group disabled={getFieldValue('isParent')}>
                 {confirmTypes.map((item) => (
                   <Radio key={`${item.key}`} value={item.key}>
                     {item.value}

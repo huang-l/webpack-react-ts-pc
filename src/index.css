@@ -4,10 +4,9 @@
 }
 
 :global(.card) {
-  margin: 20px;
   padding: 10px;
   box-shadow: 0px 0px 10px #ccc;
-  min-height: 600px;
+  min-height: 400px;
 }
 
 /* 左右浮动及清除浮动 */

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { InputNumber } from 'antd';
 import Page from './page/Page';
@@ -8,15 +8,21 @@ import Control from './control/Control';
 import styles from './ProjectConfig.less';
 
 const ProjectConfig = () => {
-  // 画布样式
-  const [canvasStyle, setCanvasStyle] = useState({ width: 700, height: 500 });
   const location = useLocation();
   const id = location.state?.id;
 
+  const [canvasStyle, setCanvasStyle] = useState({ width: 700, height: 500 }); // 画布样式
+  const [pageId, setPageId] = useState(''); //选中的页面
+  const [componentList, setComponentList] = useState([]); //当前选中页面所有组件集合
+
+  // 修改画布样式
   const changeCanvasStyle = (value: number, type: string) => {
     const cStyle = { ...canvasStyle, [type]: value };
     setCanvasStyle(cStyle);
   };
+
+  // 修改选中页面方法
+  const changePageId = useCallback(() => (val: string) => setPageId(val), []);
 
   return (
     <div className={styles['edit-project-wrapper']}>
@@ -37,10 +43,10 @@ const ProjectConfig = () => {
       </div>
       <div className={styles['edit-project-main']}>
         <div className={styles['edit-project-left']}>
-          <Page />
+          <Page changePageId={changePageId} />
         </div>
         <div className={styles['edit-project-center']}>
-          <Main />
+          <Main canvasStyle={canvasStyle} componentList={componentList} />
         </div>
         <div className={styles['edit-project-right']}>
           <Control />

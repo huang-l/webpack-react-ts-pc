@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { debounce } from '@/util/commonService';
+import { debounce } from 'lodash';
 import { useSelector, useDispatch } from 'react-redux';
 import { changeProjectList } from '@/store/modules/project/reducer';
 import { projectObj } from '@/interface/project';
@@ -18,10 +18,10 @@ const Project = () => {
   const navigate = useNavigate();
 
   // 前往项目配置页
-  const goConfig = (projectId: string) => {
+  const goConfig = debounce((projectId: string) => {
     if (!projectId) return;
     navigate(`/projectConfig/${projectId}`);
-  };
+  }, 300);
 
   // 添加项目
   const addProject = debounce(() => {
@@ -34,7 +34,7 @@ const Project = () => {
   }, 300);
 
   // 编辑项目
-  const editProject = (project: projectObj) => {
+  const editProject = debounce((project: projectObj) => {
     ProjectAddModal.show(
       '编辑项目',
       500,
@@ -49,14 +49,14 @@ const Project = () => {
         dispatch(changeProjectList(newList));
       }
     );
-  };
+  }, 300);
 
   // 删除项目
-  const deleteProject = (id: string) => {
+  const deleteProject = debounce((id: string) => {
     if (!id) return;
     const newList = list.filter((p) => p.id !== id);
     dispatch(changeProjectList(newList));
-  };
+  }, 300);
 
   return (
     <div className={styles['project-wrapper']}>

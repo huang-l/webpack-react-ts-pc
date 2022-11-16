@@ -1,7 +1,6 @@
-import { projectObj, catalogObj, pageObj } from '@/interface/project';
+import { projectObj, pageObj } from '@/interface/project';
 const defaultState = {
   projectList: [], //项目列表
-  catalogList: [], //单个项目下的目录列表
   pageList: [], //单个项目下的页面列表
 };
 
@@ -12,8 +11,6 @@ const reducer = (
   switch (action.type) {
     case 'project/projectList':
       return { ...state, projectList: action.payload };
-    case 'project/catalogList':
-      return { ...state, catalogList: action.payload };
     case 'project/pageList':
       return { ...state, pageList: action.payload };
     default:
@@ -24,13 +21,6 @@ const reducer = (
 export const changeProjectList = (payload: Array<projectObj>) => {
   return {
     type: 'project/projectList',
-    payload,
-  };
-};
-
-export const changeCatalogList = (payload: Array<catalogObj>) => {
-  return {
-    type: 'project/catalogList',
     payload,
   };
 };
