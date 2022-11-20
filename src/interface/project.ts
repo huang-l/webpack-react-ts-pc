@@ -11,3 +11,13 @@ export interface pageObj {
   isDialog: boolean;
   projectId: string;
 }
+// 定义组件接口
+export interface compObject {
+  key: string;
+  boxConfig: {
+    left: number;
+    top: number;
+    width: number;
+    height: number;
+  };
+}

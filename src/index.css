@@ -3,6 +3,12 @@
   height: 100%;
 }
 
+/* id 全局唯一id */
+:global(#project-main-content) {
+  position: relative;
+  background: #fff;
+}
+
 :global(.card) {
   padding: 10px;
   box-shadow: 0px 0px 10px #ccc;
@@ -54,6 +60,29 @@
 }
 :global(.mr-20) {
   margin-right: 20px;
+}
+:global(.mt-5) {
+  margin-top: 5px;
+}
+:global(.mt-10) {
+  margin-top: 10px;
+}
+:global(.mt-20) {
+  margin-top: 20px;
+}
+:global(.mb-5) {
+  margin-bottom: 5px;
+}
+:global(.mb-10) {
+  margin-bottom: 10px;
+}
+:global(.mb-20) {
+  margin-bottom: 20px;
+}
+
+/* 宽度 */
+:global(.width-80) {
+  width: 80px !important;
 }
 
 /* 文本溢出省略 */
