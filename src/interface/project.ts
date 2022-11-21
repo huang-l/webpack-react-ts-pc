@@ -20,4 +20,5 @@ export interface compObject {
     width: number;
     height: number;
   };
+  contentConfig: any;
 }

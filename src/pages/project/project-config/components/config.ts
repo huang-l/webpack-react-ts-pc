@@ -3,7 +3,18 @@ export const boxConfigList = [
   { key: 'HlButton', title: '按钮', width: 100, height: 30 },
 ];
 export const contentConfigList = [
-  { key: 'HlText', config: { value: '文本' } },
+  {
+    key: 'HlText',
+    config: {
+      fontSize: 14,
+      fontWeight: 'normal',
+      color: '#000000',
+      ellipsis: false,
+      move: false,
+      dataType: 'static',
+      value: '文本',
+    },
+  },
   { key: 'HlButton', config: { value: '按钮' } },
 ];
 export const compSvgList = [

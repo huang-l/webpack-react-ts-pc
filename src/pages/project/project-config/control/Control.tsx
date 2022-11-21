@@ -49,7 +49,11 @@ const Control = (props: any) => {
       key: 'config',
       label: '配置',
       children: comp ? (
-        <Config comp={comp} changeBoxConfig={props.changeBoxConfig} />
+        <Config
+          comp={comp}
+          changeBoxConfig={props.changeBoxConfig}
+          changeContentConfig={props.changeContentConfig}
+        />
       ) : (
         '请选择组件'
       ),

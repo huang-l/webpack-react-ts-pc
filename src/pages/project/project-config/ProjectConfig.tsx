@@ -2,6 +2,7 @@ import React, { useRef, useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { InputNumber } from 'antd';
 import { compObject } from '@/interface/project';
+import { cloneDeep } from 'lodash';
 import { boxConfigList, contentConfigList } from './components/config';
 import Page from './page/Page';
 import Main from './main/Main';
@@ -41,6 +42,18 @@ const ProjectConfig = () => {
     const newList = tempCompList.current.map((comp) => {
       if (comp.key === tempCompKey.current) {
         comp = { ...comp, boxConfig: { ...val } };
+      }
+      return comp;
+    });
+    tempCompList.current = newList;
+    setCompList(newList);
+  }, []);
+
+  // 修改当前选中组件内容配置
+  const changeContentConfig = useCallback((val: any) => {
+    const newList = tempCompList.current.map((comp) => {
+      if (comp.key === tempCompKey.current) {
+        comp = { ...comp, contentConfig: cloneDeep(val) };
       }
       return comp;
     });
@@ -129,6 +142,7 @@ const ProjectConfig = () => {
             compList={compList}
             changeRightKey={changeRightKey}
             changeBoxConfig={changeBoxConfig}
+            changeContentConfig={changeContentConfig}
           />
         </div>
       </div>

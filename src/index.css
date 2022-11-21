@@ -84,6 +84,9 @@
 :global(.width-80) {
   width: 80px !important;
 }
+:global(.width-140) {
+  width: 140px !important;
+}
 
 /* 文本溢出省略 */
 :global(.text-ellipsis) {
