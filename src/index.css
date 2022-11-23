@@ -1,25 +1,28 @@
-html,
-body,
-#root {
+:global(#root) {
   margin: 0;
   height: 100%;
 }
 
-.card {
-  margin: 20px;
+/* id 全局唯一id */
+:global(#project-main-content) {
+  position: relative;
+  background: #fff;
+}
+
+:global(.card) {
   padding: 10px;
   box-shadow: 0px 0px 10px #ccc;
-  min-height: 600px;
+  min-height: 400px;
 }
 
 /* 左右浮动及清除浮动 */
-.float-left {
+:global(.float-left) {
   float: left;
 }
-.float-right {
+:global(.float-right) {
   float: right;
 }
-.clearfix:after {
+:global(.clearfix:after) {
   content: '';
   display: block;
   height: 0;
@@ -27,14 +30,69 @@ body,
   visibility: hidden;
 }
 /* 若需要兼容ie6、7 加上以下代码 */
-.clearfix {
+:global(.clearfix) {
   *zoom: 1;
 }
 
 /* 溢出隐藏 */
-.ellipsis {
+:global(.ellipsis) {
   width: 100%;
   overflow: hidden;
   white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* 外边距 */
+:global(.ml-5) {
+  margin-left: 5px;
+}
+:global(.ml-10) {
+  margin-left: 10px;
+}
+:global(.ml-20) {
+  margin-left: 20px;
+}
+:global(.mr-5) {
+  margin-right: 5px;
+}
+:global(.mr-10) {
+  margin-right: 10px;
+}
+:global(.mr-20) {
+  margin-right: 20px;
+}
+:global(.mt-5) {
+  margin-top: 5px;
+}
+:global(.mt-10) {
+  margin-top: 10px;
+}
+:global(.mt-20) {
+  margin-top: 20px;
+}
+:global(.mb-5) {
+  margin-bottom: 5px;
+}
+:global(.mb-10) {
+  margin-bottom: 10px;
+}
+:global(.mb-20) {
+  margin-bottom: 20px;
+}
+
+/* 宽度 */
+:global(.width-80) {
+  width: 80px !important;
+}
+:global(.width-140) {
+  width: 140px !important;
+}
+
+/* 文本溢出省略 */
+:global(.text-ellipsis) {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
   text-overflow: ellipsis;
 }

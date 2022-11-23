@@ -1,0 +1,39 @@
+.edit-project-wrapper {
+  min-width: 1300px;
+  height: 100%;
+  .edit-project-header {
+    height: 48px;
+    line-height: 48px;
+    padding: 0 10px;
+    font-weight: bold;
+    box-shadow: 0 1px 1px #ccc;
+  }
+  .edit-project-main {
+    height: calc(100% - 48px);
+    .edit-project-left,
+    .edit-project-center,
+    .edit-project-right {
+      float: left;
+      width: 250px;
+      height: 100%;
+    }
+    .edit-project-left {
+      box-shadow: 1px 0 1px #ccc;
+    }
+    .edit-project-center {
+      width: calc(100% - 500px);
+      margin: 0 auto;
+      padding: 20px;
+      overflow: hidden;
+      background: #ccc;
+      .main-wrapper {
+        width: 100%;
+        height: 500px;
+        overflow: auto;
+      }
+    }
+    .edit-project-right {
+      box-shadow: -1px 0 1px #ccc;
+    }
+  }
+}

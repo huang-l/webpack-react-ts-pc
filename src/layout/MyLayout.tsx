@@ -3,7 +3,7 @@ import { Outlet, useLocation, useNavigate } from 'react-router';
 import { Layout, Menu } from 'antd';
 import { HomeOutlined, FolderOpenOutlined } from '@ant-design/icons';
 
-import './MyLayout.less';
+import styles from './MyLayout.less';
 
 const { Header, Sider, Content } = Layout;
 
@@ -22,21 +22,20 @@ const MyLayout = () => {
 
   useEffect(() => {
     setSelectKey(location.pathname);
-  }, []);
+  }, [location.pathname]);
 
   const onMenuClick = (e: { key: string }) => {
     const { key } = e;
     navigate(key);
-    setSelectKey(key);
   };
 
   return (
-    <Layout className="system-layout">
-      <Header className="system-header">我是头部</Header>
+    <Layout className={styles['system-layout']}>
+      <Header className={styles['system-header']}>我是头部</Header>
       <Layout>
-        <Sider className="system-sider">
+        <Sider>
           <Menu
-            className="system-menu"
+            className={styles['system-menu']}
             selectedKeys={[selectKey]}
             items={items}
             mode="inline"
