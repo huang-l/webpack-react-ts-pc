@@ -82,4 +82,7 @@ module.exports = {
     },
     extensions: ['.js', '.json', '.ts', '.tsx'],
   },
+  externals: {
+    AMap: 'AMap', // 高德地图配置
+  },
 };
