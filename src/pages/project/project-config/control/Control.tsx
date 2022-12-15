@@ -31,7 +31,7 @@ const Control = (props: any) => {
       label: "控件",
       children: (
         <div className={styles["comp-wrapper"]}>
-          {svgList.map((item) => {
+          {svgList.map((item: { key: string; src: string }) => {
             return (
               <img
                 className={styles["comp-image"]}

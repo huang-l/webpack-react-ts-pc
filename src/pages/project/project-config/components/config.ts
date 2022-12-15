@@ -1,23 +1,28 @@
-export const boxConfigList = [
-  { key: "HlText", title: "文本", width: 100, height: 30 },
-  { key: "HlButton", title: "按钮", width: 100, height: 30 },
-];
-export const contentConfigList = [
-  {
-    key: "HlText",
-    config: {
-      fontSize: 14,
-      fontWeight: "normal",
-      color: "#000000",
-      ellipsis: false,
-      move: false,
-      dataType: "static",
-      value: "文本",
-    },
-  },
-  { key: "HlButton", config: { value: "按钮" } },
-];
-export const compSvgList = [
-  { key: "HlText", src: "/static/project/text.svg" },
-  { key: "HlButton", src: "/static/project/button.svg" },
-];
+const modules: any = [];
+const files = require.context("../components", true, /default\.ts$/);
+files.keys().forEach((key: string) => {
+  const module = files(key).default;
+  if (!modules.find((m: { key: string }) => m.key === module.key)) {
+    modules.push(module);
+  }
+});
+export const compSvgList = modules.map(
+  (item: { key: string; svg: string }) => ({
+    key: item.key,
+    src: item.svg,
+  })
+);
+
+export const boxConfigList = modules.map(
+  (item: { key: string; [x: string]: any }) => ({
+    key: item.key,
+    ...item.boxConfig,
+  })
+);
+
+export const contentConfigList = modules.map(
+  (item: { key: string; contentConfig: { [x: string]: any } }) => ({
+    key: item.key,
+    config: { ...item.contentConfig },
+  })
+);

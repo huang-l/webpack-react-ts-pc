@@ -70,7 +70,9 @@ const ProjectConfig = () => {
     e.preventDefault();
     e.stopPropagation();
     const compKey = e.dataTransfer.getData("compKey");
-    const component = boxConfigList.find((item) => item.key === compKey);
+    const component = boxConfigList.find(
+      (item: { key: string }) => item.key === compKey
+    );
     if (!component?.key) return;
     const compLeft = e.dataTransfer.getData("compLeft");
     const compTop = e.dataTransfer.getData("compTop");
@@ -98,7 +100,8 @@ const ProjectConfig = () => {
       key: `${compKey}_${index}`,
       boxConfig: { title, left, top, width, height },
       contentConfig:
-        contentConfigList.find((item) => item.key === compKey)?.config || {},
+        contentConfigList.find((item: { key: string }) => item.key === compKey)
+          ?.config || {},
     };
     const newList = compList.concat(newComponent);
     tempCompList.current = newList;
