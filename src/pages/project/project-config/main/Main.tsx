@@ -31,6 +31,7 @@ const Main = (props: any) => {
             key={comp.key}
             active={compKey === comp.key}
             compKey={comp.key}
+            canvasStyle={canvasStyle}
             boxConfig={comp.boxConfig}
             changeCompKey={props.changeCompKey}
             changeBoxConfig={props.changeBoxConfig}

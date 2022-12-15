@@ -77,16 +77,22 @@ const ProjectConfig = () => {
     const editorRectInfo = mainContent?.getBoundingClientRect();
     let left = 0,
       top = 0;
+    const { width, height } = component;
     if (editorRectInfo) {
       left = e.clientX - editorRectInfo.x - compLeft;
       top = e.clientY - editorRectInfo.y - compTop;
+      left < 0 && (left = 0);
+      top < 0 && (top = 0);
+      const maxLeft = canvasStyle.width - width;
+      const maxTop = canvasStyle.height - height;
+      left > maxLeft && (left = maxLeft);
+      top > maxTop && (top = maxTop);
     }
     const sameCompsIndex = compList
       .filter((c) => c.key.split("_")[0] === component.key)
       .map((item) => Number(item.key.split("_")[1]));
     const index = sameCompsIndex.length ? Math.max(...sameCompsIndex) + 1 : 0;
     const title = `${component.title}_${index + 1}`;
-    const { width, height } = component;
     const newComponent = {
       key: `${compKey}_${index}`,
       boxConfig: { title, left, top, width, height },
@@ -103,16 +109,22 @@ const ProjectConfig = () => {
       <div className={styles["edit-project-header"]}>
         <span className="float-left mr-10">头部</span>
         <InputNumber
+          className="width-140"
           placeholder="请输入宽度"
           value={canvasStyle.width}
-          style={{ width: 120 }}
-          onChange={(value) => changeCanvasStyle(value ?? 0, "width")}
+          min={700}
+          onChange={(value) =>
+            changeCanvasStyle(Math.trunc(value ?? 700), "width")
+          }
         />
         <InputNumber
+          className="width-140 ml-10"
           placeholder="请输入高度"
           value={canvasStyle.height}
-          style={{ width: 120, marginLeft: "10px" }}
-          onChange={(value) => changeCanvasStyle(value ?? 0, "height")}
+          min={500}
+          onChange={(value) =>
+            changeCanvasStyle(Math.trunc(value ?? 500), "height")
+          }
         />
       </div>
       <div className={styles["edit-project-main"]}>
@@ -136,6 +148,7 @@ const ProjectConfig = () => {
         </div>
         <div className={styles["edit-project-right"]}>
           <Control
+            canvasStyle={canvasStyle}
             pageId={pageId}
             rightKey={rightKey}
             compKey={compKey}

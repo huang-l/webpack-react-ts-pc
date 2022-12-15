@@ -44,40 +44,40 @@
 
 /* 外边距 */
 :global(.ml-5) {
-  margin-left: 5px;
+  margin-left: 5px !important;
 }
 :global(.ml-10) {
-  margin-left: 10px;
+  margin-left: 10px !important;
 }
 :global(.ml-20) {
-  margin-left: 20px;
+  margin-left: 20px !important;
 }
 :global(.mr-5) {
-  margin-right: 5px;
+  margin-right: 5px !important;
 }
 :global(.mr-10) {
-  margin-right: 10px;
+  margin-right: 10px !important;
 }
 :global(.mr-20) {
-  margin-right: 20px;
+  margin-right: 20px !important;
 }
 :global(.mt-5) {
-  margin-top: 5px;
+  margin-top: 5px !important;
 }
 :global(.mt-10) {
-  margin-top: 10px;
+  margin-top: 10px !important;
 }
 :global(.mt-20) {
-  margin-top: 20px;
+  margin-top: 20px !important;
 }
 :global(.mb-5) {
-  margin-bottom: 5px;
+  margin-bottom: 5px !important;
 }
 :global(.mb-10) {
-  margin-bottom: 10px;
+  margin-bottom: 10px !important;
 }
 :global(.mb-20) {
-  margin-bottom: 20px;
+  margin-bottom: 20px !important;
 }
 
 /* 宽度 */

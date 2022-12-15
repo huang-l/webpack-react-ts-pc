@@ -5,7 +5,7 @@ import HlTextData from "../components/text/Data";
 import styles from "./Config.less";
 
 const Config = (props: any) => {
-  const { comp } = props;
+  const { comp, canvasStyle } = props;
   const { boxConfig, contentConfig } = comp;
 
   // 修改容器样式
@@ -39,18 +39,32 @@ const Config = (props: any) => {
           ];
           return (
             <div className="mb-10" key={index}>
-              {item.map((ite, ind) => (
-                <div className={styles["comp-pos"]} key={ite}>
-                  <span className={styles["pos-label"]}>
-                    {arr[index][ind]} :
-                  </span>
-                  <InputNumber
-                    className="width-80"
-                    value={boxConfig[ite]}
-                    onChange={(value) => changeBox(value, ite)}
-                  />
-                </div>
-              ))}
+              {item.map((ite, ind) => {
+                let min = 0;
+                ["width", "height"].includes(ite) && (min = 30);
+                const maxObj: { [x: string]: number } = {
+                  left: canvasStyle.width - boxConfig.width,
+                  top: canvasStyle.height - boxConfig.height,
+                  width: canvasStyle.width - boxConfig.left,
+                  height: canvasStyle.height - boxConfig.top,
+                };
+                return (
+                  <div className={styles["comp-pos"]} key={ite}>
+                    <span className={styles["pos-label"]}>
+                      {arr[index][ind]} :
+                    </span>
+                    <InputNumber
+                      className="width-80"
+                      value={boxConfig[ite]}
+                      min={min}
+                      max={maxObj[ite]}
+                      onChange={(value) =>
+                        changeBox(Math.trunc(value ?? min), ite)
+                      }
+                    />
+                  </div>
+                );
+              })}
             </div>
           );
         })}

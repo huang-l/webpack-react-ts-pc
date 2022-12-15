@@ -2,7 +2,7 @@ import React, { memo, useRef } from "react";
 import styles from "./Container.less";
 
 const Container = (props: any) => {
-  const { active, compKey, boxConfig } = props;
+  const { active, compKey, boxConfig, canvasStyle } = props;
   const containerRef = useRef<HTMLDivElement>(null);
 
   // 鼠标按下 选中当前组件进行拖拽
@@ -11,7 +11,7 @@ const Container = (props: any) => {
     e.preventDefault();
     e.stopPropagation();
     const { clientX, clientY } = e;
-    const { left, top } = boxConfig;
+    const { left, top, width, height } = boxConfig;
     let hasMove = false;
     let lastLeft = left;
     let lastTop = top;
@@ -19,6 +19,12 @@ const Container = (props: any) => {
       hasMove = true;
       lastLeft = left + moveEvent.clientX - clientX;
       lastTop = top + moveEvent.clientY - clientY;
+      lastLeft < 0 && (lastLeft = 0);
+      lastTop < 0 && (lastTop = 0);
+      const maxLeft = canvasStyle.width - width;
+      const maxTop = canvasStyle.height - height;
+      lastLeft > maxLeft && (lastLeft = maxLeft);
+      lastTop > maxTop && (lastTop = maxTop);
       if (containerRef.current) {
         containerRef.current.style.left = `${lastLeft}px`;
         containerRef.current.style.top = `${lastTop}px`;
@@ -50,40 +56,74 @@ const Container = (props: any) => {
     let lastHeight = height;
     const move = (moveEvent: any) => {
       hasMove = true;
+      const fixedTop = top + height;
+      const fixedLeft = left + width;
+      const moveY = moveEvent.clientY - clientY;
+      const moveX = moveEvent.clientX - clientX;
       switch (point) {
         case "n":
-          lastTop = top + moveEvent.clientY - clientY;
-          lastHeight = height - moveEvent.clientY + clientY;
+          lastHeight = height - moveY;
+          lastHeight < 30 && (lastHeight = 30);
+          lastHeight > fixedTop && (lastHeight = fixedTop);
+          lastTop = fixedTop - lastHeight;
           break;
         case "e":
-          lastWidth = width + moveEvent.clientX - clientX;
+          lastWidth = width + moveX;
+          lastWidth < 30 && (lastWidth = 30);
+          lastWidth > canvasStyle.width - left &&
+            (lastWidth = canvasStyle.width - left);
           break;
         case "s":
-          lastHeight = height + moveEvent.clientY - clientY;
+          lastHeight = height + moveY;
+          lastHeight < 30 && (lastHeight = 30);
+          lastHeight > canvasStyle.height - top &&
+            (lastHeight = canvasStyle.height - top);
           break;
         case "w":
-          lastLeft = left + moveEvent.clientX - clientX;
-          lastWidth = width - moveEvent.clientX + clientX;
+          lastWidth = width - moveX;
+          lastWidth < 30 && (lastWidth = 30);
+          lastWidth > fixedLeft && (lastWidth = fixedLeft);
+          lastLeft = fixedLeft - lastWidth;
           break;
         case "nw":
-          lastTop = top + moveEvent.clientY - clientY;
-          lastHeight = height - moveEvent.clientY + clientY;
-          lastLeft = left + moveEvent.clientX - clientX;
-          lastWidth = width - moveEvent.clientX + clientX;
+          lastHeight = height - moveY;
+          lastHeight < 30 && (lastHeight = 30);
+          lastHeight > fixedTop && (lastHeight = fixedTop);
+          lastTop = fixedTop - lastHeight;
+          lastWidth = width - moveX;
+          lastWidth < 30 && (lastWidth = 30);
+          lastWidth > fixedLeft && (lastWidth = fixedLeft);
+          lastLeft = fixedLeft - lastWidth;
           break;
         case "ne":
-          lastTop = top + moveEvent.clientY - clientY;
-          lastHeight = height - moveEvent.clientY + clientY;
-          lastWidth = width + moveEvent.clientX - clientX;
+          lastHeight = height - moveY;
+          lastHeight < 30 && (lastHeight = 30);
+          lastHeight > fixedTop && (lastHeight = fixedTop);
+          lastTop = fixedTop - lastHeight;
+          lastWidth = width + moveX;
+          lastWidth < 30 && (lastWidth = 30);
+          lastWidth > canvasStyle.width - left &&
+            (lastWidth = canvasStyle.width - left);
           break;
         case "sw":
-          lastHeight = height + moveEvent.clientY - clientY;
-          lastLeft = left + moveEvent.clientX - clientX;
-          lastWidth = width - moveEvent.clientX + clientX;
+          lastHeight = height + moveY;
+          lastHeight < 30 && (lastHeight = 30);
+          lastHeight > canvasStyle.height - top &&
+            (lastHeight = canvasStyle.height - top);
+          lastWidth = width - moveX;
+          lastWidth < 30 && (lastWidth = 30);
+          lastWidth > fixedLeft && (lastWidth = fixedLeft);
+          lastLeft = fixedLeft - lastWidth;
           break;
         case "se":
-          lastHeight = height + moveEvent.clientY - clientY;
-          lastWidth = width + moveEvent.clientX - clientX;
+          lastHeight = height + moveY;
+          lastHeight < 30 && (lastHeight = 30);
+          lastHeight > canvasStyle.height - top &&
+            (lastHeight = canvasStyle.height - top);
+          lastWidth = width + moveX;
+          lastWidth < 30 && (lastWidth = 30);
+          lastWidth > canvasStyle.width - left &&
+            (lastWidth = canvasStyle.width - left);
           break;
         default:
           break;

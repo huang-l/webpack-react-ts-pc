@@ -5,7 +5,7 @@ import Config from "./Config";
 import styles from "./Control.less";
 
 const Control = (props: any) => {
-  const { pageId, rightKey, compKey, compList } = props;
+  const { pageId, rightKey, compKey, compList, canvasStyle } = props;
   const svgList = pageId ? compSvgList : [];
 
   // 拖拽组件存储数据
@@ -50,6 +50,7 @@ const Control = (props: any) => {
       label: "配置",
       children: comp ? (
         <Config
+          canvasStyle={canvasStyle}
           comp={comp}
           changeBoxConfig={props.changeBoxConfig}
           changeContentConfig={props.changeContentConfig}
