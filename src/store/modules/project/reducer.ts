@@ -1,4 +1,4 @@
-import { projectObj, pageObj } from '@/interface/project';
+import { projectObj, pageObj } from "@/interface/project";
 const defaultState = {
   projectList: [], //项目列表
   pageList: [], //单个项目下的页面列表
@@ -9,9 +9,9 @@ const reducer = (
   action: { type: string; payload: any }
 ) => {
   switch (action.type) {
-    case 'project/projectList':
+    case "project/projectList":
       return { ...state, projectList: action.payload };
-    case 'project/pageList':
+    case "project/pageList":
       return { ...state, pageList: action.payload };
     default:
       return state;
@@ -20,14 +20,14 @@ const reducer = (
 
 export const changeProjectList = (payload: Array<projectObj>) => {
   return {
-    type: 'project/projectList',
+    type: "project/projectList",
     payload,
   };
 };
 
 export const changePageList = (payload: Array<pageObj>) => {
   return {
-    type: 'project/pageList',
+    type: "project/pageList",
     payload,
   };
 };

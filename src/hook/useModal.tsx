@@ -1,7 +1,7 @@
-import React, { FC } from 'react';
-import { createPortal } from 'react-dom';
-import ReactDom from 'react-dom/client';
-import { Modal } from 'antd';
+import React, { FC } from "react";
+import { createPortal } from "react-dom";
+import ReactDom from "react-dom/client";
+import { Modal } from "antd";
 // 用来处理弹窗组件
 const useModal: any = (ModalComponent: FC) => {
   function WrapComponent(props: any) {
@@ -22,7 +22,7 @@ const useModal: any = (ModalComponent: FC) => {
   }
   let container: HTMLDivElement | null = null;
   let root: any;
-  let modal = document.getElementById('modal') as HTMLElement;
+  let modal = document.getElementById("modal") as HTMLElement;
   /**
    * @params title 标题
    * @params width 宽度
@@ -38,12 +38,12 @@ const useModal: any = (ModalComponent: FC) => {
     onCancel?: Function
   ) => {
     if (!container) {
-      container = document.createElement('div');
+      container = document.createElement("div");
     }
     modal.appendChild(container);
     const params = { title, width, winData };
     function closeHandle() {
-      if (container && container.tagName.toUpperCase() === 'DIV') {
+      if (container && container.tagName.toUpperCase() === "DIV") {
         root.unmount();
       }
       container = null;
@@ -73,7 +73,7 @@ const useModal: any = (ModalComponent: FC) => {
   };
 
   WrapComponent.hide = () => {
-    if (container && container.tagName.toUpperCase() === 'DIV') {
+    if (container && container.tagName.toUpperCase() === "DIV") {
       root.unmount();
     }
     container = null;

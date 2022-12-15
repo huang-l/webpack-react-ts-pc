@@ -1,13 +1,13 @@
-const { merge } = require('webpack-merge');
-const common = require('./webpack.common.js');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin'); //抽离css作为一个单独文件
-const CssMinimizerWebpackPlugin = require('css-minimizer-webpack-plugin'); //压缩css
+const { merge } = require("webpack-merge");
+const common = require("./webpack.common.js");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin"); //抽离css作为一个单独文件
+const CssMinimizerWebpackPlugin = require("css-minimizer-webpack-plugin"); //压缩css
 
 module.exports = merge(common, {
-  mode: 'production',
+  mode: "production",
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[contenthash].css',
+      filename: "css/[name].[contenthash].css",
       ignoreOrder: true,
     }),
   ],
@@ -18,22 +18,22 @@ module.exports = merge(common, {
       cacheGroups: {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
-          chunks: 'all',
+          name: "vendors",
+          chunks: "all",
         },
       },
     },
   },
   // webpack性能的警告提示
   performance: {
-    hints: 'warning',
+    hints: "warning",
     // 入口起点的最大体积
     maxEntrypointSize: 50000000,
     // 生成文件的最大体积
     maxAssetSize: 30000000,
     // 只给出js、css文件的性能提示
     assetFilter: function assetFilte(assetFilename) {
-      return assetFilename.endsWith('.js') || assetFilename.endsWith('.css');
+      return assetFilename.endsWith(".js") || assetFilename.endsWith(".css");
     },
   },
 });

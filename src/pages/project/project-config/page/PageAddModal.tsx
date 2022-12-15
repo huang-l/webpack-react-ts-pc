@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { Spin, Button, Form, Input, Radio } from 'antd';
-import useModal from '@/hook/useModal';
-import { confirmTypes } from '../../businessTypes';
+import React, { useState, useEffect } from "react";
+import { Spin, Button, Form, Input, Radio } from "antd";
+import useModal from "@/hook/useModal";
+import { confirmTypes } from "../../businessTypes";
 
 const PageAddModal = (props: any) => {
   const [form] = Form.useForm();
@@ -40,7 +40,7 @@ const PageAddModal = (props: any) => {
         <Form.Item
           name="name"
           label="页面名称"
-          rules={[{ required: true, message: '请输入页面名称' }]}
+          rules={[{ required: true, message: "请输入页面名称" }]}
         >
           <Input placeholder="请输入页面名称" />
         </Form.Item>
@@ -51,7 +51,7 @@ const PageAddModal = (props: any) => {
               label="是否为父级页面"
               initialValue={false}
             >
-              <Radio.Group disabled={getFieldValue('isDialog')}>
+              <Radio.Group disabled={getFieldValue("isDialog")}>
                 {confirmTypes.map((item) => (
                   <Radio key={`${item.key}`} value={item.key}>
                     {item.value}
@@ -68,7 +68,7 @@ const PageAddModal = (props: any) => {
               label="是否为弹窗页面"
               initialValue={false}
             >
-              <Radio.Group disabled={getFieldValue('isParent')}>
+              <Radio.Group disabled={getFieldValue("isParent")}>
                 {confirmTypes.map((item) => (
                   <Radio key={`${item.key}`} value={item.key}>
                     {item.value}

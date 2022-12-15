@@ -1,1 +1,1 @@
-declare module 'AMap';
+declare module "AMap";

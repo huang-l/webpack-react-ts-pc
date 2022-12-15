@@ -1,5 +1,5 @@
-import React, { memo } from 'react';
-import styles from './Index.less';
+import React, { memo } from "react";
+import styles from "./Index.less";
 
 const HlText = (props: any) => {
   const { contentConfig } = props;
@@ -7,8 +7,8 @@ const HlText = (props: any) => {
   const { value, fontSize, fontWeight, color, ellipsis, move } = contentConfig;
   return (
     <div
-      className={`${styles['hl-text']} ${
-        ellipsis ? `text-ellipsis ${move ? styles['move'] : ''}` : ''
+      className={`${styles["hl-text"]} ${
+        ellipsis ? `text-ellipsis ${move ? styles["move"] : ""}` : ""
       }`}
       style={{ fontSize: `${fontSize}px`, fontWeight, color }}
     >
@@ -17,4 +17,4 @@ const HlText = (props: any) => {
   );
 };
 
-export default { key: 'HlText', component: memo(HlText) };
+export default { key: "HlText", component: memo(HlText) };

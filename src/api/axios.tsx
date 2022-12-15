@@ -1,12 +1,12 @@
-import axios from 'axios';
+import axios from "axios";
 
 const service = axios.create({
-  baseURL: '/api',
+  baseURL: "/api",
   timeout: 10000,
   headers: {
-    'Content-type': 'application/json; charset=utf-8',
-    'cache-control': 'no-cache',
-    Pragma: 'no-cache',
+    "Content-type": "application/json; charset=utf-8",
+    "cache-control": "no-cache",
+    Pragma: "no-cache",
   },
 });
 

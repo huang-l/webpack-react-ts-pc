@@ -1,11 +1,11 @@
-import React, { memo } from 'react';
-import styles from './Index.less';
+import React, { memo } from "react";
+import styles from "./Index.less";
 
 const HlButton = (props: any) => {
   const { contentConfig } = props;
 
   const { value } = contentConfig;
-  return <div className={styles['hl-button']}>{value}</div>;
+  return <div className={styles["hl-button"]}>{value}</div>;
 };
 
-export default { key: 'HlButton', component: memo(HlButton) };
+export default { key: "HlButton", component: memo(HlButton) };

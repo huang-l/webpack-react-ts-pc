@@ -1,7 +1,7 @@
-import React, { memo } from 'react';
-import { dataTypes } from '@/pages/project/businessTypes';
-import { Radio, Input } from 'antd';
-import CommonBox from '../../control/CommonBox';
+import React, { memo } from "react";
+import { dataTypes } from "@/pages/project/businessTypes";
+import { Radio, Input } from "antd";
+import CommonBox from "../../common/CommonBox";
 
 const HlTextData = (props: any) => {
   const { contentConfig } = props;
@@ -25,14 +25,14 @@ const HlTextData = (props: any) => {
         value={
           <Radio.Group
             options={options}
-            onChange={(e) => changeContentConfig(e.target.value, 'dataType')}
+            onChange={(e) => changeContentConfig(e.target.value, "dataType")}
             value={dataType}
             optionType="button"
             buttonStyle="solid"
           />
         }
       />
-      {dataType === 'static' && (
+      {dataType === "static" && (
         <>
           <CommonBox
             label="显示数据"
@@ -40,13 +40,13 @@ const HlTextData = (props: any) => {
               <Input
                 placeholder="请输入显示数据"
                 value={value}
-                onChange={(e) => changeContentConfig(e.target.value, 'value')}
+                onChange={(e) => changeContentConfig(e.target.value, "value")}
               />
             }
           />
         </>
       )}
-      {dataType === 'dynamic' && <>请求接口数据显示。。。</>}
+      {dataType === "dynamic" && <>请求接口数据显示。。。</>}
     </>
   );
 };

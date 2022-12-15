@@ -1,5 +1,5 @@
-import React, { memo, useRef } from 'react';
-import styles from './Container.less';
+import React, { memo, useRef } from "react";
+import styles from "./Container.less";
 
 const Container = (props: any) => {
   const { active, compKey, boxConfig } = props;
@@ -30,11 +30,11 @@ const Container = (props: any) => {
         boxConfig.top = lastTop;
         props.changeBoxConfig(boxConfig);
       }
-      document.removeEventListener('mousemove', move);
-      document.removeEventListener('mouseup', up);
+      document.removeEventListener("mousemove", move);
+      document.removeEventListener("mouseup", up);
     };
-    document.addEventListener('mousemove', move);
-    document.addEventListener('mouseup', up);
+    document.addEventListener("mousemove", move);
+    document.addEventListener("mouseup", up);
   };
 
   // 通过控制点完成缩放
@@ -51,37 +51,37 @@ const Container = (props: any) => {
     const move = (moveEvent: any) => {
       hasMove = true;
       switch (point) {
-        case 'n':
+        case "n":
           lastTop = top + moveEvent.clientY - clientY;
           lastHeight = height - moveEvent.clientY + clientY;
           break;
-        case 'e':
+        case "e":
           lastWidth = width + moveEvent.clientX - clientX;
           break;
-        case 's':
+        case "s":
           lastHeight = height + moveEvent.clientY - clientY;
           break;
-        case 'w':
+        case "w":
           lastLeft = left + moveEvent.clientX - clientX;
           lastWidth = width - moveEvent.clientX + clientX;
           break;
-        case 'nw':
+        case "nw":
           lastTop = top + moveEvent.clientY - clientY;
           lastHeight = height - moveEvent.clientY + clientY;
           lastLeft = left + moveEvent.clientX - clientX;
           lastWidth = width - moveEvent.clientX + clientX;
           break;
-        case 'ne':
+        case "ne":
           lastTop = top + moveEvent.clientY - clientY;
           lastHeight = height - moveEvent.clientY + clientY;
           lastWidth = width + moveEvent.clientX - clientX;
           break;
-        case 'sw':
+        case "sw":
           lastHeight = height + moveEvent.clientY - clientY;
           lastLeft = left + moveEvent.clientX - clientX;
           lastWidth = width - moveEvent.clientX + clientX;
           break;
-        case 'se':
+        case "se":
           lastHeight = height + moveEvent.clientY - clientY;
           lastWidth = width + moveEvent.clientX - clientX;
           break;
@@ -103,15 +103,15 @@ const Container = (props: any) => {
         boxConfig.height = lastHeight;
         props.changeBoxConfig(boxConfig);
       }
-      document.removeEventListener('mousemove', move);
-      document.removeEventListener('mouseup', up);
+      document.removeEventListener("mousemove", move);
+      document.removeEventListener("mouseup", up);
     };
-    document.addEventListener('mousemove', move);
-    document.addEventListener('mouseup', up);
+    document.addEventListener("mousemove", move);
+    document.addEventListener("mouseup", up);
   };
 
   // 八个控制点 缩放
-  const pointList = ['n', 'e', 's', 'w', 'nw', 'ne', 'sw', 'se'];
+  const pointList = ["n", "e", "s", "w", "nw", "ne", "sw", "se"];
 
   // 每个点的样式
   const getPointStyle = (point: string) => {
@@ -119,19 +119,19 @@ const Container = (props: any) => {
     const hasB = /s/.test(point);
     const hasL = /w/.test(point);
     const hasR = /e/.test(point);
-    let newLeft = '0';
-    let newTop = '0';
+    let newLeft = "0";
+    let newTop = "0";
     if (point.length === 2) {
-      newLeft = hasL ? '0' : '100%';
-      newTop = hasT ? '0' : '100%';
+      newLeft = hasL ? "0" : "100%";
+      newTop = hasT ? "0" : "100%";
     } else {
       if (hasT || hasB) {
-        newLeft = '50%';
-        newTop = hasT ? '0' : '100%';
+        newLeft = "50%";
+        newTop = hasT ? "0" : "100%";
       }
       if (hasL || hasR) {
-        newLeft = hasL ? '0' : '100%';
-        newTop = '50%';
+        newLeft = hasL ? "0" : "100%";
+        newTop = "50%";
       }
     }
     return {
@@ -146,8 +146,8 @@ const Container = (props: any) => {
   return (
     <div
       ref={containerRef}
-      className={`${styles['container']} ${
-        active ? styles['container-active'] : ''
+      className={`${styles["container"]} ${
+        active ? styles["container-active"] : ""
       }`}
       style={{ left, top, width: `${width}px`, height: `${height}px` }}
       onMouseDown={handleMouseDownOnShape}
@@ -156,7 +156,7 @@ const Container = (props: any) => {
         pointList.map((item) => (
           <div
             key={item}
-            className={styles['container-point']}
+            className={styles["container-point"]}
             style={getPointStyle(item)}
             onMouseDown={(e) => handleMouseDownOnPoint(e, item)}
           ></div>

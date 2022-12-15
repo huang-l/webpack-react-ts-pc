@@ -1,7 +1,7 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from "redux";
 
 let modules = {};
-const files = require.context('./modules', true, /reducer\.ts$/);
+const files = require.context("./modules", true, /reducer\.ts$/);
 files.keys().forEach((key: string) => {
   modules = Object.assign(modules, files(key).default);
 });

@@ -23,7 +23,7 @@
   float: right;
 }
 :global(.clearfix:after) {
-  content: '';
+  content: "";
   display: block;
   height: 0;
   clear: both;

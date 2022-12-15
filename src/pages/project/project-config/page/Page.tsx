@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from "react";
 import {
   PlusOutlined,
   EditOutlined,
@@ -6,20 +6,20 @@ import {
   FileOutlined,
   FilePptOutlined,
   MessageOutlined,
-} from '@ant-design/icons';
-import PageAddModal from './PageAddModal';
-import { pageObj } from '@/interface/project';
-import { useDispatch, useSelector } from 'react-redux';
-import { changePageList } from '@/store/modules/project/reducer';
-import { useParams } from 'react-router-dom';
-import { debounce } from 'lodash';
-import styles from './Page.less';
+} from "@ant-design/icons";
+import PageAddModal from "./PageAddModal";
+import { pageObj } from "@/interface/project";
+import { useDispatch, useSelector } from "react-redux";
+import { changePageList } from "@/store/modules/project/reducer";
+import { useParams } from "react-router-dom";
+import { debounce } from "lodash";
+import styles from "./Page.less";
 
 const Page = (props: any) => {
   const params = useParams();
   const projectId = params.id as string;
 
-  const [pageId, setPageId] = useState(''); //选中的页面
+  const [pageId, setPageId] = useState(""); //选中的页面
 
   const pList: Array<pageObj> = useSelector(
     (state: any) => state.project.pageList
@@ -40,14 +40,14 @@ const Page = (props: any) => {
   }) => {
     const id = pList.length
       ? String(Number(pList[pList.length - 1].id) + 1)
-      : '1';
+      : "1";
     const page = { id, ...param, projectId };
     const newList = [...pList, page];
     dispatch(changePageList(newList));
   };
   // 添加页面
   const addPage = debounce(() => {
-    PageAddModal.show('添加页面', 500, {}, handleAddPageOk);
+    PageAddModal.show("添加页面", 500, {}, handleAddPageOk);
   }, 300);
   const handleEditPageOk = (
     param: { name: string; isParent: boolean; isDialog: boolean },
@@ -66,7 +66,7 @@ const Page = (props: any) => {
   // 编辑页面
   const editPage = debounce((pageInfo: any) => {
     PageAddModal.show(
-      '编辑页面',
+      "编辑页面",
       500,
       { pageInfo },
       (param: { name: string; isParent: boolean; isDialog: boolean }) =>
@@ -91,26 +91,26 @@ const Page = (props: any) => {
   };
 
   return (
-    <div className={styles['page-wrapper']}>
-      <div className={`${styles['page-header']} clearfix`}>
+    <div className={styles["page-wrapper"]}>
+      <div className={`${styles["page-header"]} clearfix`}>
         <span className="float-left">页面列表</span>
         <a className="float-right" onClick={addPage}>
           <PlusOutlined />
         </a>
       </div>
-      <div className={styles['page-content']}>
+      <div className={styles["page-content"]}>
         {pList?.map((item) => {
           let icon = item.isDialog ? <MessageOutlined /> : <FileOutlined />;
           item.isParent && (icon = <FilePptOutlined />);
           return (
             <div
               key={item.id}
-              className={`${styles['page-item']} clearfix ${
-                pageId === item.id ? styles['page-active'] : ''
+              className={`${styles["page-item"]} clearfix ${
+                pageId === item.id ? styles["page-active"] : ""
               }`}
               onClick={() => selectPage(item.id)}
             >
-              <span className={`text-ellipsis ${styles['page-title']}`}>
+              <span className={`text-ellipsis ${styles["page-title"]}`}>
                 <span className="mr-5">{icon}</span>
                 {item.name}
               </span>

@@ -1,14 +1,14 @@
-import React from 'react';
-import { Button } from 'antd';
-import { useNavigate } from 'react-router-dom';
-import { debounce } from 'lodash';
-import { useSelector, useDispatch } from 'react-redux';
-import { changeProjectList } from '@/store/modules/project/reducer';
-import { projectObj } from '@/interface/project';
-import ProjectAddModal from './ProjectAddModal';
-import { EditFilled, DeleteFilled } from '@ant-design/icons';
+import React from "react";
+import { Button } from "antd";
+import { useNavigate } from "react-router-dom";
+import { debounce } from "lodash";
+import { useSelector, useDispatch } from "react-redux";
+import { changeProjectList } from "@/store/modules/project/reducer";
+import { projectObj } from "@/interface/project";
+import ProjectAddModal from "./ProjectAddModal";
+import { EditFilled, DeleteFilled } from "@ant-design/icons";
 
-import styles from './Project.less';
+import styles from "./Project.less";
 
 const Project = () => {
   const list: Array<projectObj> = useSelector(
@@ -25,8 +25,8 @@ const Project = () => {
 
   // 添加项目
   const addProject = debounce(() => {
-    ProjectAddModal.show('添加项目', 500, {}, (param: { name: string }) => {
-      const id = list.length ? String(Number(list[0].id) + 1) : '1';
+    ProjectAddModal.show("添加项目", 500, {}, (param: { name: string }) => {
+      const id = list.length ? String(Number(list[0].id) + 1) : "1";
       const project = { id, ...param };
       const newList = [project, ...list];
       dispatch(changeProjectList(newList));
@@ -36,7 +36,7 @@ const Project = () => {
   // 编辑项目
   const editProject = debounce((project: projectObj) => {
     ProjectAddModal.show(
-      '编辑项目',
+      "编辑项目",
       500,
       { project },
       (param: { name: string }) => {
@@ -59,8 +59,8 @@ const Project = () => {
   }, 300);
 
   return (
-    <div className={styles['project-wrapper']}>
-      <div className={`${styles['project-header']} clearfix`}>
+    <div className={styles["project-wrapper"]}>
+      <div className={`${styles["project-header"]} clearfix`}>
         <div className="float-left">项目</div>
         <div className="float-right">
           <Button
@@ -72,14 +72,14 @@ const Project = () => {
           </Button>
         </div>
       </div>
-      <div className={`${styles['project-content']} card`}>
+      <div className={`${styles["project-content"]} card`}>
         {list.length > 0
           ? list.map((project) => (
-              <div className={styles['project-item']} key={project.id}>
-                <img className={styles['item-img']} src="/static/project.svg" />
-                <div className={`${styles['item-txt']} clearfix`}>
+              <div className={styles["project-item"]} key={project.id}>
+                <img className={styles["item-img"]} src="/static/project.svg" />
+                <div className={`${styles["item-txt"]} clearfix`}>
                   <a
-                    className={`ellipsis ${styles['item-name']}`}
+                    className={`ellipsis ${styles["item-name"]}`}
                     onClick={() => goConfig(project.id as string)}
                   >
                     {project.name}
@@ -95,7 +95,7 @@ const Project = () => {
                 </div>
               </div>
             ))
-          : '暂无数据'}
+          : "暂无数据"}
       </div>
     </div>
   );

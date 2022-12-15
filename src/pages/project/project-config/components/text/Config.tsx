@@ -1,7 +1,7 @@
-import React, { memo } from 'react';
-import { InputNumber, Select, Input, Checkbox } from 'antd';
-import { fontWeights } from '@/pages/project/businessTypes';
-import CommonBox from '../../control/CommonBox';
+import React, { memo } from "react";
+import { InputNumber, Select, Input, Checkbox } from "antd";
+import { fontWeights } from "@/pages/project/businessTypes";
+import CommonBox from "../../common/CommonBox";
 
 const HlTextConfig = (props: any) => {
   const { contentConfig } = props;
@@ -27,7 +27,7 @@ const HlTextConfig = (props: any) => {
             value={fontSize}
             placeholder="请输入文字大小"
             onChange={(val) =>
-              changeContentConfig(Math.trunc(val ?? 12), 'fontSize')
+              changeContentConfig(Math.trunc(val ?? 12), "fontSize")
             }
           />
         }
@@ -39,7 +39,7 @@ const HlTextConfig = (props: any) => {
             getPopupContainer={(triggerNode) => triggerNode.parentNode}
             className="width-140"
             placeholder="请选择文字粗细"
-            onChange={(val) => changeContentConfig(val, 'fontWeight')}
+            onChange={(val) => changeContentConfig(val, "fontWeight")}
             value={fontWeight}
           >
             {fontWeights.map((item) => (
@@ -56,7 +56,7 @@ const HlTextConfig = (props: any) => {
           <Input
             type="color"
             value={color}
-            onChange={(e) => changeContentConfig(e.target.value, 'color')}
+            onChange={(e) => changeContentConfig(e.target.value, "color")}
           />
         }
       />
@@ -65,7 +65,7 @@ const HlTextConfig = (props: any) => {
         value={
           <Checkbox
             checked={ellipsis}
-            onChange={(e) => changeContentConfig(e.target.checked, 'ellipsis')}
+            onChange={(e) => changeContentConfig(e.target.checked, "ellipsis")}
           >
             溢出隐藏
           </Checkbox>
@@ -76,7 +76,7 @@ const HlTextConfig = (props: any) => {
           value={
             <Checkbox
               checked={move}
-              onChange={(e) => changeContentConfig(e.target.checked, 'move')}
+              onChange={(e) => changeContentConfig(e.target.checked, "move")}
             >
               横向滚动
             </Checkbox>

@@ -1,7 +1,7 @@
-import React, { createElement, memo } from 'react';
-import Container from './Container';
-import HlText from '../components/text/Index';
-import HlButton from '../components/button/Index';
+import React, { createElement, memo } from "react";
+import Container from "./Container";
+import HlText from "../components/text/Index";
+import HlButton from "../components/button/Index";
 
 const Main = (props: any) => {
   const { canvasStyle, compList, compKey } = props;
@@ -13,13 +13,13 @@ const Main = (props: any) => {
       style={{ width: `${width}px`, height: `${height}px` }}
     >
       {compList.map((comp: any) => {
-        const key = comp.key.split('_')[0];
+        const key = comp.key.split("_")[0];
         let component;
         switch (key) {
-          case 'HlText':
+          case "HlText":
             component = HlText.component;
             break;
-          case 'HlButton':
+          case "HlButton":
             component = HlButton.component;
             break;
           default:
