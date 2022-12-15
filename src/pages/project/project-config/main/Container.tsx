@@ -43,6 +43,19 @@ const Container = (props: any) => {
     document.addEventListener("mouseup", up);
   };
 
+  // 右键点击
+  const handleRightClick = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const { offsetX, offsetY } = e.nativeEvent;
+    const menuPos = {
+      left: offsetX + boxConfig.left,
+      top: offsetY + boxConfig.top,
+    };
+    props.changeShowMenu(true);
+    props.changeMenuPos(menuPos);
+  };
+
   // 通过控制点完成缩放
   const handleMouseDownOnPoint = (e: any, point: string) => {
     e.preventDefault();
@@ -191,6 +204,7 @@ const Container = (props: any) => {
       }`}
       style={{ left, top, width: `${width}px`, height: `${height}px` }}
       onMouseDown={handleMouseDownOnShape}
+      onContextMenu={handleRightClick}
     >
       {active &&
         pointList.map((item) => (

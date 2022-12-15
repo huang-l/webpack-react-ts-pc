@@ -62,6 +62,18 @@ const ProjectConfig = () => {
     setCompList(newList);
   }, []);
 
+  // 删除当前选中容器
+  const deleteComp = useCallback(() => {
+    const newList = tempCompList.current.filter(
+      (c) => c.key !== tempCompKey.current
+    );
+    tempCompList.current = newList;
+    setCompList(newList);
+    tempCompKey.current = "";
+    setCompKey("");
+    setRightKey("comp");
+  }, []);
+
   // 修改右侧选中tab
   const changeRightKey = useCallback((val: string) => setRightKey(val), []);
 
@@ -147,6 +159,7 @@ const ProjectConfig = () => {
               compKey={compKey}
               changeCompKey={changeCompKey}
               changeBoxConfig={changeBoxConfig}
+              deleteComp={deleteComp}
             />
           </div>
         </div>
