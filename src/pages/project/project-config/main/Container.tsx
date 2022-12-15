@@ -7,7 +7,7 @@ const Container = (props: any) => {
 
   // 鼠标按下 选中当前组件进行拖拽
   const handleMouseDownOnShape = (e: any) => {
-    props.changeCompKey(compKey);
+    !active && props.changeCompKey(compKey);
     e.preventDefault();
     e.stopPropagation();
     const { clientX, clientY } = e;

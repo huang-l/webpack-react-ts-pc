@@ -36,6 +36,7 @@ const ProjectConfig = () => {
   const changeCompKey = useCallback((val: string) => {
     tempCompKey.current = val;
     setCompKey(val);
+    setRightKey("config");
   }, []);
   // 修改当前选中组件容器配置
   const changeBoxConfig = useCallback((val: any) => {

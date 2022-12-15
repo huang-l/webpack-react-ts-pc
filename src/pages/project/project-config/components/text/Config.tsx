@@ -15,7 +15,7 @@ const HlTextConfig = (props: any) => {
     props.changeContentConfig(contentConfig);
   };
 
-  const { fontSize, fontWeight, color, ellipsis, move } = contentConfig;
+  const { fontSize, fontWeight, color, ellipsis } = contentConfig;
   return (
     <>
       <CommonBox
@@ -71,18 +71,6 @@ const HlTextConfig = (props: any) => {
           </Checkbox>
         }
       />
-      {ellipsis && (
-        <CommonBox
-          value={
-            <Checkbox
-              checked={move}
-              onChange={(e) => changeContentConfig(e.target.checked, "move")}
-            >
-              横向滚动
-            </Checkbox>
-          }
-        />
-      )}
     </>
   );
 };
