@@ -1,7 +1,11 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import { Layout, Menu } from "antd";
-import { HomeOutlined, FolderOpenOutlined } from "@ant-design/icons";
+import {
+  HomeOutlined,
+  FolderOpenOutlined,
+  DeploymentUnitOutlined,
+} from "@ant-design/icons";
 
 import styles from "./MyLayout.less";
 
@@ -14,6 +18,7 @@ const MyLayout = () => {
     () => [
       { label: "首页", key: "/", icon: <HomeOutlined /> },
       { label: "项目", key: "/project", icon: <FolderOpenOutlined /> },
+      { label: "三维", key: "/three", icon: <DeploymentUnitOutlined /> },
     ],
     []
   );

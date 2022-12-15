@@ -5,6 +5,7 @@ import ProjectConfig from "../pages/project/project-config/ProjectConfig";
 
 const Home = lazy(() => import("../pages/home/Home"));
 const Project = lazy(() => import("../pages/project/Project"));
+const Three = lazy(() => import("../pages/three/Three"));
 
 const lazyLoad = (childNode: ReactNode) => {
   return <Suspense fallback={<>loading...</>}>{childNode}</Suspense>;
@@ -22,6 +23,10 @@ const routeConfig = [
       {
         path: "project",
         element: lazyLoad(<Project />),
+      },
+      {
+        path: "three",
+        element: lazyLoad(<Three />),
       },
       // 如果没有匹配到任何路由 就跳转根目录(或者404页面)  类似于重定向
       { path: "*", element: <Navigate to="/" /> },
