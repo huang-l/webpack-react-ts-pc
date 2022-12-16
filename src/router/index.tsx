@@ -1,11 +1,12 @@
 import React, { Suspense, lazy, ReactNode } from "react";
 import { Navigate } from "react-router-dom";
-import Layout from "../layout/MyLayout";
-import ProjectConfig from "../pages/project/project-config/ProjectConfig";
+import Layout from "@/layout/MyLayout";
+import ProjectConfig from "@/pages/project/project-config/ProjectConfig";
+import ThreeConfig from "@/pages/three/three-config/ThreeConfig";
 
-const Home = lazy(() => import("../pages/home/Home"));
-const Project = lazy(() => import("../pages/project/Project"));
-const Three = lazy(() => import("../pages/three/Three"));
+const Home = lazy(() => import("@/pages/home/Home"));
+const Project = lazy(() => import("@/pages/project/Project"));
+const Three = lazy(() => import("@/pages/three/Three"));
 
 const lazyLoad = (childNode: ReactNode) => {
   return <Suspense fallback={<>loading...</>}>{childNode}</Suspense>;
@@ -35,6 +36,10 @@ const routeConfig = [
   {
     path: "/projectConfig/:id",
     element: <ProjectConfig />,
+  },
+  {
+    path: "/threeConfig",
+    element: <ThreeConfig />,
   },
 ];
 
