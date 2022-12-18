@@ -3,21 +3,53 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { debounce, cloneDeep } from "lodash";
 import { Collapse, Checkbox } from "antd";
-import Model from "./config/Model";
+import { geometryConfigs, materialConfigs } from "@/pages/three/businessTypes";
+import { hexToNum } from "@/util/commonService";
+import Model from "./config/model/Model";
 import styles from "./ThreeConfig.less";
 
 const ThreeConfig = () => {
   const scene = useRef<any>(null); //场景
   const renderer = useRef<any>(null); //渲染器
   const camera = useRef<any>(null); //相机
-  const [modelList, setModelList] = useState<Array<{ [x: string]: string }>>(
-    []
-  ); //模型列表
-  const [isShowAxes, setIsShowAxes] = useState(false);
-  const changeModelList = useCallback(
-    (val: Array<{ [x: string]: string }>) => setModelList(cloneDeep(val)),
-    []
-  );
+  const configRef = useRef<{ [x: string]: any }>({
+    isShowAxes: false,
+    model: "mesh",
+    geometry: "BoxGeometry",
+    material: "MeshBasicMaterial",
+    gConfig: geometryConfigs.BoxGeometry,
+    mConfig: materialConfigs.MeshBasicMaterial,
+  });
+
+  const [config, setConfig] = useState<{ [x: string]: any }>({
+    isShowAxes: false,
+    model: "mesh",
+    geometry: "BoxGeometry",
+    material: "MeshBasicMaterial",
+    gConfig: geometryConfigs.BoxGeometry,
+    mConfig: materialConfigs.MeshBasicMaterial,
+  });
+
+  const changeConfig = useCallback((val: any, type: string) => {
+    const currentConfig = cloneDeep(configRef.current);
+    currentConfig[type] = val;
+    if (type === "model") {
+      let material;
+      val === "point" && (material = "PointsMaterial");
+      val === "line" && (material = "LineBasicMaterial");
+      val === "mesh" && (material = "MeshBasicMaterial");
+      currentConfig.material = material;
+    }
+    if (type === "geometry") {
+      currentConfig.gConfig = geometryConfigs[val];
+    }
+    if (type === "material") {
+      currentConfig.mConfig = materialConfigs[val];
+    }
+    configRef.current = currentConfig;
+    setConfig(currentConfig);
+  }, []);
+
   const render = () => {
     if (!renderer.current || !scene.current || !camera.current) return;
     renderer.current.render(scene.current, camera.current);
@@ -26,7 +58,7 @@ const ThreeConfig = () => {
   };
   useEffect(() => {
     if (scene.current) {
-      if (isShowAxes) {
+      if (config.isShowAxes) {
         const axesHelper = new THREE.AxesHelper(250);
         scene.current.add(axesHelper);
       } else {
@@ -37,7 +69,7 @@ const ThreeConfig = () => {
         });
       }
     }
-  }, [isShowAxes]);
+  }, [config.isShowAxes]);
   // 清空场景内容
   const clearScene = () => {
     scene.current.traverse((child: any) => {
@@ -49,97 +81,148 @@ const ThreeConfig = () => {
     scene.current = null;
   };
 
-  // 模型列表修改时清空原先所有模型 在添加新模型
-  useEffect(() => {
-    if (!scene.current) return;
-    const children: any[] = [];
+  // 添加模型
+  const addModel = () => {
+    if (!scene.current || !camera.current || !renderer.current) return;
     scene.current.children.forEach((child: any) => {
       if (child.material && child.geometry && child.type !== "AxesHelper") {
-        children.push(child);
+        scene.current.remove(child);
       }
     });
-    scene.current.remove(...children);
-    if (modelList.length) {
-      modelList.forEach((model) => {
-        let geometry = null;
-        switch (model.geometry) {
-          case "BoxGeometry":
-            geometry = new THREE.BoxGeometry(100, 100, 100);
-            break;
-          case "CylinderGeometry":
-            geometry = new THREE.CylinderGeometry(50, 50, 200, 32);
-            break;
-          case "SphereGeometry":
-            geometry = new THREE.SphereGeometry(15, 32, 16);
-            break;
-          case "ConeGeometry":
-            geometry = new THREE.ConeGeometry(50, 200, 32);
-            break;
-          case "TetrahedronGeometry":
-            geometry = new THREE.TetrahedronGeometry(100, 0);
-            break;
-          case "OctahedronGeometry":
-            geometry = new THREE.OctahedronGeometry(100, 0);
-            break;
-          case "DodecahedronGeometry":
-            geometry = new THREE.DodecahedronGeometry(100, 0);
-            break;
-          case "IcosahedronGeometry":
-            geometry = new THREE.IcosahedronGeometry(100, 0);
-            break;
-          case "RingGeometry":
-            geometry = new THREE.RingGeometry(10, 50, 32);
-            break;
-          case "PlaneGeometry":
-            geometry = new THREE.PlaneGeometry(10, 10);
-            break;
-          case "CircleGeometry":
-            geometry = new THREE.CircleGeometry(50, 32);
-            break;
-          default:
-            break;
-        }
-        if (!geometry) return;
-        let material = null;
-        let object = null;
-        switch (model.model) {
-          case "point":
-            material = new THREE.PointsMaterial({
-              color: 0xff0000,
-              size: 5.0, //点对象像素尺寸
-            });
-            object = new THREE.Points(geometry, material);
-            break;
-          case "line":
-            material = new THREE.LineBasicMaterial({
-              color: 0xff0000, //线条颜色
-            });
-            object = new THREE.Line(geometry, material);
-            break;
-          case "mesh":
-            material = new THREE.MeshLambertMaterial({
-              color: 0x0000ff, //三角面颜色
-            });
-            object = new THREE.Mesh(geometry, material);
-            break;
-          default:
-            break;
-        }
-        object && scene.current.add(object);
-      });
+    let geometry = null;
+    let {
+      width,
+      height,
+      depth,
+      widthSegments,
+      heightSegments,
+      depthSegments,
+      radiusTop,
+      radiusBottom,
+      radialSegments,
+      radius,
+      detail,
+      innerRadius,
+      outerRadius,
+      thetaSegments,
+      phiSegments,
+      segments,
+    } = config.gConfig;
+    switch (config.geometry) {
+      case "BoxGeometry":
+        geometry = new THREE.BoxGeometry(
+          width,
+          height,
+          depth,
+          widthSegments,
+          heightSegments,
+          depthSegments
+        );
+        break;
+      case "CylinderGeometry":
+        geometry = new THREE.CylinderGeometry(
+          radiusTop,
+          radiusBottom,
+          height,
+          radialSegments,
+          heightSegments
+        );
+        break;
+      case "SphereGeometry":
+        geometry = new THREE.SphereGeometry(
+          radius,
+          widthSegments,
+          heightSegments
+        );
+        break;
+      case "ConeGeometry":
+        geometry = new THREE.ConeGeometry(
+          radius,
+          height,
+          radialSegments,
+          heightSegments
+        );
+        break;
+      case "TetrahedronGeometry":
+        geometry = new THREE.TetrahedronGeometry(radius, detail);
+        break;
+      case "OctahedronGeometry":
+        geometry = new THREE.OctahedronGeometry(radius, detail);
+        break;
+      case "DodecahedronGeometry":
+        geometry = new THREE.DodecahedronGeometry(radius, detail);
+        break;
+      case "IcosahedronGeometry":
+        geometry = new THREE.IcosahedronGeometry(radius, detail);
+        break;
+      case "RingGeometry":
+        geometry = new THREE.RingGeometry(
+          innerRadius,
+          outerRadius,
+          thetaSegments,
+          phiSegments
+        );
+        break;
+      case "PlaneGeometry":
+        geometry = new THREE.PlaneGeometry(
+          width,
+          height,
+          widthSegments,
+          heightSegments
+        );
+        break;
+      case "CircleGeometry":
+        geometry = new THREE.CircleGeometry(radius, segments);
+        break;
+      default:
+        break;
     }
+    if (!geometry) return;
+    let material = null;
+    let model = null;
+    let { color } = config.mConfig;
+    switch (config.model) {
+      case "point":
+        material = new THREE.PointsMaterial({
+          color: hexToNum(color),
+          size: 5.0, //点对象像素尺寸
+        });
+        model = new THREE.Points(geometry, material);
+        break;
+      case "line":
+        material = new THREE.LineBasicMaterial({
+          color: 0xff0000, //线条颜色
+        });
+        model = new THREE.Line(geometry, material);
+        break;
+      case "mesh":
+        material = new THREE.MeshBasicMaterial({
+          color: 0x0000ff, //三角面颜色
+        });
+        model = new THREE.Mesh(geometry, material);
+        break;
+      default:
+        break;
+    }
+    model && scene.current.add(model);
     renderer.current.render(scene.current, camera.current);
-  }, [modelList]);
+  };
 
-  // 渲染三维模型
-  const renderThree = (canvas: HTMLElement) => {
-    // 1.创建场景对象
+  // 在模型配置修改后重新添加模型
+  useEffect(() => {
+    addModel();
+  }, [
+    config.model,
+    config.geometry,
+    config.material,
+    config.gConfig,
+    config.mConfig,
+  ]);
+
+  // 初始化画布 定义场景 模型 光源 相机 渲染器和控制器等
+  const init = (canvas: HTMLElement) => {
+    // 创建场景对象
     scene.current = new THREE.Scene();
-    // 2.创建网格模型 几何体+材质
-    const geometry = new THREE.BoxGeometry(100, 100, 100); //创建一个立方体几何对象Geometry
-    const material = new THREE.MeshLambertMaterial({ color: 0x0000ff }); //材质对象Material
-    const mesh = new THREE.Mesh(geometry, material); //网格模型对象Mesh
-    scene.current.add(mesh); //网格模型添加到场景中
     // 3.设置光源
     const point = new THREE.PointLight(0xffffff); //点光源
     point.position.set(400, 200, 300); //点光源位置
@@ -175,6 +258,7 @@ const ThreeConfig = () => {
     );
     render();
     // controls.addEventListener("change", render); //监听轨道改变
+    addModel();
   };
   // 页面缩放
   const windowResize = debounce(() => {
@@ -192,7 +276,7 @@ const ThreeConfig = () => {
     const canvas = document.getElementById("three-canvas");
     if (!canvas) return;
     window.addEventListener("resize", windowResize);
-    renderThree(canvas);
+    init(canvas);
     return componentWillUnmount;
   }, []);
 
@@ -203,14 +287,14 @@ const ThreeConfig = () => {
         <Collapse accordion>
           <Collapse.Panel key={1} header="场景">
             <Checkbox
-              checked={isShowAxes}
-              onChange={(e) => setIsShowAxes(e.target.checked)}
+              checked={config.isShowAxes}
+              onChange={(e) => changeConfig(e.target.checked, "isShowAxes")}
             >
               辅助坐标系
             </Checkbox>
           </Collapse.Panel>
           <Collapse.Panel key={2} header="模型">
-            <Model modelList={modelList} changeModelList={changeModelList} />
+            <Model config={config} changeConfig={changeConfig} />
           </Collapse.Panel>
           <Collapse.Panel key={3} header="光源"></Collapse.Panel>
           <Collapse.Panel key={4} header="相机"></Collapse.Panel>

@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { dataTypes } from "@/pages/project/businessTypes";
 import { Radio, Input } from "antd";
-import CommonBox from "../../common/CommonBox";
+import CommonBox from "@/common/CommonBox";
 
 const HlTextData = (props: any) => {
   const { contentConfig } = props;

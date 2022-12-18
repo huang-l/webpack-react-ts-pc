@@ -18,6 +18,47 @@ export const geometryTypes = [
   { key: "PlaneGeometry", value: "矩形平面" },
   { key: "CircleGeometry", value: "圆平面" },
 ];
+export const geometryConfigs = {
+  BoxGeometry: {
+    width: 100,
+    height: 100,
+    depth: 100,
+    widthSegments: 1,
+    heightSegments: 1,
+    depthSegments: 1,
+  },
+  CylinderGeometry: {
+    radiusTop: 100,
+    radiusBottom: 100,
+    height: 100,
+    radialSegments: 8,
+    heightSegments: 8,
+  },
+  SphereGeometry: { radius: 100, widthSegments: 32, heightSegments: 16 },
+  ConeGeometry: {
+    radius: 100,
+    height: 100,
+    radialSegments: 8,
+    heightSegments: 1,
+  },
+  TetrahedronGeometry: { radius: 100, detail: 1 },
+  OctahedronGeometry: { radius: 100, detail: 1 },
+  DodecahedronGeometry: { radius: 100, detail: 1 },
+  IcosahedronGeometry: { radius: 100, detail: 1 },
+  RingGeometry: {
+    innerRadius: 10,
+    outerRadius: 100,
+    thetaSegments: 8,
+    phiSegments: 8,
+  },
+  PlaneGeometry: {
+    width: 100,
+    height: 100,
+    widthSegments: 1,
+    heightSegments: 1,
+  },
+  CircleGeometry: { radius: 100, segments: 32 },
+};
 // 材质类型
 export const materialTypes = [
   { key: "PointsMaterial", value: "点材质" },
@@ -31,3 +72,15 @@ export const materialTypes = [
   { key: "MeshDepthMaterial", value: "网格深度材质" },
   { key: "MeshNormalMaterial", value: "网格法向量材质" },
 ];
+export const materialConfigs = {
+  PointsMaterial: { color: "#ff0000" },
+  LineBasicMaterial: { color: "#0000ff" },
+  LineDashedMaterial: { color: "#0000ff" },
+  MeshBasicMaterial: { color: "#0000ff" },
+  MeshLambertMaterial: { color: "#0000ff" },
+  MeshPhongMaterial: { color: "#0000ff" },
+  MeshStandardMaterial: { color: "#0000ff" },
+  MeshPhysicalMaterial: { color: "#0000ff" },
+  MeshDepthMaterial: { color: "#0000ff" },
+  MeshNormalMaterial: { color: "#0000ff" },
+};

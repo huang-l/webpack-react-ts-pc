@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 import { InputNumber, Select, Input, Checkbox } from "antd";
 import { fontWeights } from "@/pages/project/businessTypes";
-import CommonBox from "../../common/CommonBox";
+import CommonBox from "@/common/CommonBox";
 
 const HlTextConfig = (props: any) => {
   const { contentConfig } = props;
