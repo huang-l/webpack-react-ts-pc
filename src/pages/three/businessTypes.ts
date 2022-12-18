@@ -17,12 +17,6 @@ export const geometryTypes = [
   { key: "RingGeometry", value: "环平面" },
   { key: "PlaneGeometry", value: "矩形平面" },
   { key: "CircleGeometry", value: "圆平面" },
-  { key: "ExtrudeGeometry", value: "拉伸、扫描" },
-  { key: "LatheGeometry", value: "旋转" },
-  { key: "TubeGeometry", value: "管道" },
-  { key: "ShapeGeometry", value: "轮廓填充" },
-  { key: "TextGeometry", value: "文字" },
-  { key: "ParametricGeometry", value: "参数化曲面" },
 ];
 // 材质类型
 export const materialTypes = [

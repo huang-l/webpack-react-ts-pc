@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { debounce, cloneDeep } from "lodash";
-import { Collapse } from "antd";
+import { Collapse, Checkbox } from "antd";
 import Model from "./config/Model";
 import styles from "./ThreeConfig.less";
 
@@ -12,10 +13,31 @@ const ThreeConfig = () => {
   const [modelList, setModelList] = useState<Array<{ [x: string]: string }>>(
     []
   ); //模型列表
+  const [isShowAxes, setIsShowAxes] = useState(false);
   const changeModelList = useCallback(
     (val: Array<{ [x: string]: string }>) => setModelList(cloneDeep(val)),
     []
   );
+  const render = () => {
+    if (!renderer.current || !scene.current || !camera.current) return;
+    renderer.current.render(scene.current, camera.current);
+    // 渲染下一帧时在调用render函数
+    requestAnimationFrame(render);
+  };
+  useEffect(() => {
+    if (scene.current) {
+      if (isShowAxes) {
+        const axesHelper = new THREE.AxesHelper(250);
+        scene.current.add(axesHelper);
+      } else {
+        scene.current.children.forEach((child: any) => {
+          if (child.type === "AxesHelper") {
+            scene.current.remove(child);
+          }
+        });
+      }
+    }
+  }, [isShowAxes]);
   // 清空场景内容
   const clearScene = () => {
     scene.current.traverse((child: any) => {
@@ -32,14 +54,52 @@ const ThreeConfig = () => {
     if (!scene.current) return;
     const children: any[] = [];
     scene.current.children.forEach((child: any) => {
-      if (child.material && child.geometry) {
+      if (child.material && child.geometry && child.type !== "AxesHelper") {
         children.push(child);
       }
     });
     scene.current.remove(...children);
     if (modelList.length) {
       modelList.forEach((model) => {
-        const geometry = new THREE.BoxGeometry(100, 100, 100);
+        let geometry = null;
+        switch (model.geometry) {
+          case "BoxGeometry":
+            geometry = new THREE.BoxGeometry(100, 100, 100);
+            break;
+          case "CylinderGeometry":
+            geometry = new THREE.CylinderGeometry(50, 50, 200, 32);
+            break;
+          case "SphereGeometry":
+            geometry = new THREE.SphereGeometry(15, 32, 16);
+            break;
+          case "ConeGeometry":
+            geometry = new THREE.ConeGeometry(50, 200, 32);
+            break;
+          case "TetrahedronGeometry":
+            geometry = new THREE.TetrahedronGeometry(100, 0);
+            break;
+          case "OctahedronGeometry":
+            geometry = new THREE.OctahedronGeometry(100, 0);
+            break;
+          case "DodecahedronGeometry":
+            geometry = new THREE.DodecahedronGeometry(100, 0);
+            break;
+          case "IcosahedronGeometry":
+            geometry = new THREE.IcosahedronGeometry(100, 0);
+            break;
+          case "RingGeometry":
+            geometry = new THREE.RingGeometry(10, 50, 32);
+            break;
+          case "PlaneGeometry":
+            geometry = new THREE.PlaneGeometry(10, 10);
+            break;
+          case "CircleGeometry":
+            geometry = new THREE.CircleGeometry(50, 32);
+            break;
+          default:
+            break;
+        }
+        if (!geometry) return;
         let material = null;
         let object = null;
         switch (model.model) {
@@ -65,7 +125,7 @@ const ThreeConfig = () => {
           default:
             break;
         }
-        scene.current.add(object);
+        object && scene.current.add(object);
       });
     }
     renderer.current.render(scene.current, camera.current);
@@ -106,7 +166,15 @@ const ThreeConfig = () => {
     renderer.current.setClearColor(0xb9d3ff, 1); //设置背景颜色
     renderer.current.setPixelRatio(window.devicePixelRatio); // 兼容高清屏幕
     canvas.appendChild(renderer.current.domElement); //body元素中插入canvas对象
-    renderer.current.render(scene.current, camera.current); //执行渲染操作   指定场景、相机作为参数
+    // renderer.current.render(scene.current, camera.current); //执行渲染操作   指定场景、相机作为参数
+
+    // 创建轨道控制器操作3d物体 使鼠标拖动旋转
+    const controls = new OrbitControls(
+      camera.current,
+      renderer.current.domElement
+    );
+    render();
+    // controls.addEventListener("change", render); //监听轨道改变
   };
   // 页面缩放
   const windowResize = debounce(() => {
@@ -133,7 +201,14 @@ const ThreeConfig = () => {
       <div id="three-canvas" className={styles["three-canvas"]}></div>
       <div className={styles["three-conf"]}>
         <Collapse accordion>
-          <Collapse.Panel key={1} header="场景"></Collapse.Panel>
+          <Collapse.Panel key={1} header="场景">
+            <Checkbox
+              checked={isShowAxes}
+              onChange={(e) => setIsShowAxes(e.target.checked)}
+            >
+              辅助坐标系
+            </Checkbox>
+          </Collapse.Panel>
           <Collapse.Panel key={2} header="模型">
             <Model modelList={modelList} changeModelList={changeModelList} />
           </Collapse.Panel>
