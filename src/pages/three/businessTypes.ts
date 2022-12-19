@@ -84,3 +84,11 @@ export const materialConfigs = {
   MeshDepthMaterial: { color: "#0000ff" },
   MeshNormalMaterial: { color: "#0000ff" },
 };
+export const cameraTypes = [
+  { key: "OrthographicCamera", value: "正交摄像机" },
+  { key: "PerspectiveCamera", value: "透视摄像机" },
+];
+export const cameraConfigs = {
+  OrthographicCamera: { ratio: 200 },
+  PerspectiveCamera: { fov: 45 },
+};

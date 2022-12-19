@@ -3,12 +3,18 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { debounce, cloneDeep } from "lodash";
 import { Collapse, Checkbox } from "antd";
-import { geometryConfigs, materialConfigs } from "@/pages/three/businessTypes";
+import {
+  geometryConfigs,
+  materialConfigs,
+  cameraConfigs,
+} from "@/pages/three/businessTypes";
 import { hexToNum } from "@/util/commonService";
 import Model from "./config/model/Model";
+import Camera from "./config/camera/Camera";
 import styles from "./ThreeConfig.less";
 
 const ThreeConfig = () => {
+  const canvas = useRef<any>(null);
   const scene = useRef<any>(null); //场景
   const renderer = useRef<any>(null); //渲染器
   const camera = useRef<any>(null); //相机
@@ -17,8 +23,10 @@ const ThreeConfig = () => {
     model: "mesh",
     geometry: "BoxGeometry",
     material: "MeshBasicMaterial",
+    camera: "OrthographicCamera",
     gConfig: geometryConfigs.BoxGeometry,
     mConfig: materialConfigs.MeshBasicMaterial,
+    cConfig: cameraConfigs.OrthographicCamera,
   });
 
   const [config, setConfig] = useState<{ [x: string]: any }>({
@@ -26,25 +34,30 @@ const ThreeConfig = () => {
     model: "mesh",
     geometry: "BoxGeometry",
     material: "MeshBasicMaterial",
+    camera: "OrthographicCamera",
     gConfig: geometryConfigs.BoxGeometry,
     mConfig: materialConfigs.MeshBasicMaterial,
+    cConfig: cameraConfigs.OrthographicCamera,
   });
 
   const changeConfig = useCallback((val: any, type: string) => {
     const currentConfig = cloneDeep(configRef.current);
     currentConfig[type] = val;
     if (type === "model") {
-      let material;
-      val === "point" && (material = "PointsMaterial");
+      let material = "PointsMaterial";
       val === "line" && (material = "LineBasicMaterial");
       val === "mesh" && (material = "MeshBasicMaterial");
       currentConfig.material = material;
+      currentConfig.mConfig = materialConfigs[material];
     }
     if (type === "geometry") {
       currentConfig.gConfig = geometryConfigs[val];
     }
     if (type === "material") {
       currentConfig.mConfig = materialConfigs[val];
+    }
+    if (type === "camera") {
+      currentConfig.cConfig = cameraConfigs[val];
     }
     configRef.current = currentConfig;
     setConfig(currentConfig);
@@ -190,14 +203,14 @@ const ThreeConfig = () => {
         model = new THREE.Points(geometry, material);
         break;
       case "line":
-        material = new THREE.LineBasicMaterial({
-          color: 0xff0000, //线条颜色
+        material = new THREE[config.material]({
+          color: hexToNum(color), //线条颜色
         });
         model = new THREE.Line(geometry, material);
         break;
       case "mesh":
-        material = new THREE.MeshBasicMaterial({
-          color: 0x0000ff, //三角面颜色
+        material = new THREE[config.material]({
+          color: hexToNum(color), //三角面颜色
         });
         model = new THREE.Mesh(geometry, material);
         break;
@@ -219,36 +232,62 @@ const ThreeConfig = () => {
     config.mConfig,
   ]);
 
+  // 添加相机
+  const addCamera = () => {
+    if (!canvas.current) return;
+    const { offsetWidth, offsetHeight } = canvas.current;
+    const k = offsetWidth / offsetHeight; //窗口宽高比
+    switch (config.camera) {
+      case "OrthographicCamera":
+        camera.current = new THREE.OrthographicCamera(
+          -config.cConfig.ratio * k,
+          config.cConfig.ratio * k,
+          config.cConfig.ratio,
+          -config.cConfig.ratio,
+          1,
+          1000
+        );
+        break;
+      case "PerspectiveCamera":
+        camera.current = new THREE.PerspectiveCamera(config.fov, k, 1, 1000);
+        break;
+      default:
+        break;
+    }
+    camera.current.position.set(200, 300, 200); //设置相机位置
+    camera.current.lookAt(scene.current.position); //设置相机方向(指向的场景对象)
+    render();
+  };
+
+  useEffect(() => {
+    if (
+      JSON.stringify(config.cConfig) ===
+      JSON.stringify(configRef.current.cConfig)
+    )
+      return;
+    addCamera();
+  }, [config.cConfig]);
+
   // 初始化画布 定义场景 模型 光源 相机 渲染器和控制器等
-  const init = (canvas: HTMLElement) => {
+  const init = () => {
     // 创建场景对象
     scene.current = new THREE.Scene();
-    // 3.设置光源
+    // 设置光源
     const point = new THREE.PointLight(0xffffff); //点光源
     point.position.set(400, 200, 300); //点光源位置
     const ambient = new THREE.AmbientLight(0x444444); //环境光
     scene.current.add(point);
     scene.current.add(ambient);
-    // 4.设置相机
-    const { offsetWidth, offsetHeight } = canvas;
-    const k = offsetWidth / offsetHeight; //窗口宽高比
-    const s = 200; //三维场景显示范围控制系数 系数越大 显示的范围越大
-    camera.current = new THREE.OrthographicCamera(
-      -s * k,
-      s * k,
-      s,
-      -s,
-      1,
-      1000
-    );
-    camera.current.position.set(200, 300, 200); //设置相机位置
-    camera.current.lookAt(scene.current.position); //设置相机方向(指向的场景对象)
-    // 5.创建渲染器对象
+    // 设置相机
+    addCamera();
+    // 创建渲染器对象
+    if (!canvas.current) return;
+    const { offsetWidth, offsetHeight } = canvas.current;
     renderer.current = new THREE.WebGLRenderer();
     renderer.current.setSize(offsetWidth, offsetHeight); //设置渲染区域尺寸 设置输出canvas的尺寸
     renderer.current.setClearColor(0xb9d3ff, 1); //设置背景颜色
     renderer.current.setPixelRatio(window.devicePixelRatio); // 兼容高清屏幕
-    canvas.appendChild(renderer.current.domElement); //body元素中插入canvas对象
+    canvas.current.appendChild(renderer.current.domElement); //body元素中插入canvas对象
     // renderer.current.render(scene.current, camera.current); //执行渲染操作   指定场景、相机作为参数
 
     // 创建轨道控制器操作3d物体 使鼠标拖动旋转
@@ -262,9 +301,8 @@ const ThreeConfig = () => {
   };
   // 页面缩放
   const windowResize = debounce(() => {
-    const canvas = document.getElementById("three-canvas");
-    if (!canvas) return;
-    const { offsetWidth, offsetHeight } = canvas;
+    if (!canvas.current) return;
+    const { offsetWidth, offsetHeight } = canvas.current;
     renderer.current.setSize(offsetWidth, offsetHeight);
   }, 300);
   // 组件销毁时操作
@@ -273,16 +311,15 @@ const ThreeConfig = () => {
     // clearScene();
   };
   useEffect(() => {
-    const canvas = document.getElementById("three-canvas");
-    if (!canvas) return;
+    if (!canvas.current) return;
     window.addEventListener("resize", windowResize);
-    init(canvas);
+    init();
     return componentWillUnmount;
   }, []);
 
   return (
     <div className={styles["three-config"]}>
-      <div id="three-canvas" className={styles["three-canvas"]}></div>
+      <div ref={canvas} className={styles["three-canvas"]}></div>
       <div className={styles["three-conf"]}>
         <Collapse accordion>
           <Collapse.Panel key={1} header="场景">
@@ -297,7 +334,9 @@ const ThreeConfig = () => {
             <Model config={config} changeConfig={changeConfig} />
           </Collapse.Panel>
           <Collapse.Panel key={3} header="光源"></Collapse.Panel>
-          <Collapse.Panel key={4} header="相机"></Collapse.Panel>
+          <Collapse.Panel key={4} header="相机">
+            <Camera config={config} changeConfig={changeConfig} />
+          </Collapse.Panel>
           <Collapse.Panel key={5} header="渲染器"></Collapse.Panel>
         </Collapse>
       </div>
