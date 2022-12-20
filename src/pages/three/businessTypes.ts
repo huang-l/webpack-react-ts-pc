@@ -6,6 +6,7 @@ export const modelTypes = [
 ];
 // 几何体类型
 export const geometryTypes = [
+  { key: "BufferGeometry", value: "自定义" },
   { key: "BoxGeometry", value: "长方体" },
   { key: "CylinderGeometry", value: "圆柱体" },
   { key: "SphereGeometry", value: "球体" },
@@ -19,6 +20,13 @@ export const geometryTypes = [
   { key: "CircleGeometry", value: "圆平面" },
 ];
 export const geometryConfigs = {
+  BufferGeometry: {
+    pointList: [
+      { key: "1", x: 0, y: 0, z: 0 },
+      { key: "2", x: 50, y: 0, z: 0 },
+      { key: "3", x: 0, y: 100, z: 0 },
+    ],
+  },
   BoxGeometry: {
     width: 100,
     height: 100,

@@ -104,6 +104,7 @@ const ThreeConfig = () => {
     });
     let geometry = null;
     let {
+      pointList,
       width,
       height,
       depth,
@@ -122,6 +123,21 @@ const ThreeConfig = () => {
       segments,
     } = config.gConfig;
     switch (config.geometry) {
+      case "BufferGeometry":
+        geometry = new THREE.BufferGeometry();
+        const arr = pointList.map((p: { x: number; y: number; z: number }) => [
+          p.x,
+          p.y,
+          p.z,
+        ]);
+        console.log(arr.flat());
+        const vertices = new Float32Array([...arr.flat()]);
+        geometry.attributes.position = new THREE.BufferAttribute(vertices, 3);
+        // geometry.setAttribute(
+        //   "position",
+        //   new THREE.BufferAttribute(vertices, 3)
+        // );
+        break;
       case "BoxGeometry":
         geometry = new THREE.BoxGeometry(
           width,
