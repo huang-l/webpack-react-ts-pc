@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useState } from "react";
 import { Select } from "antd";
 import {
   modelTypes,
@@ -7,10 +7,17 @@ import {
 } from "@/pages/three/businessTypes";
 import CommonBox from "@/common/CommonBox";
 import { geometryConfig, materialConfig } from "./config";
+import { Radio } from "antd";
 
 const Model = (props: any) => {
-  const { config } = props;
-  const { model, geometry, material, gConfig, mConfig } = config;
+  const [showType, setShowType] = useState("geometry");
+
+  const { model, geometry, material, gConfig, mConfig } = props.config;
+
+  const options = [
+    { label: "几何体", value: "geometry" },
+    { label: "材质", value: "material" },
+  ];
 
   return (
     <>
@@ -50,12 +57,6 @@ const Model = (props: any) => {
           </Select>
         }
       />
-      {geometry &&
-        geometryConfig[geometry] &&
-        React.createElement(geometryConfig[geometry], {
-          gConfig,
-          changeConfig: props.changeConfig,
-        })}
       <CommonBox
         label="材质类型"
         value={
@@ -80,7 +81,27 @@ const Model = (props: any) => {
           </Select>
         }
       />
-      {materialConfig &&
+      <CommonBox
+        label="配置"
+        value={
+          <Radio.Group
+            options={options}
+            onChange={(e) => setShowType(e.target.value)}
+            value={showType}
+            optionType="button"
+            buttonStyle="solid"
+          />
+        }
+      />
+      {showType === "geometry" &&
+        geometry &&
+        geometryConfig[geometry] &&
+        React.createElement(geometryConfig[geometry], {
+          gConfig,
+          changeConfig: props.changeConfig,
+        })}
+      {showType === "material" &&
+        materialConfig &&
         materialConfig[material] &&
         React.createElement(materialConfig[material], {
           mConfig,

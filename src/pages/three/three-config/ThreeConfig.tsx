@@ -303,6 +303,8 @@ const ThreeConfig = () => {
   const windowResize = debounce(() => {
     if (!canvas.current) return;
     const { offsetWidth, offsetHeight } = canvas.current;
+    camera.current.aspect = offsetWidth / offsetHeight;
+    camera.current.updateProjectionMatrix();
     renderer.current.setSize(offsetWidth, offsetHeight);
   }, 300);
   // 组件销毁时操作
