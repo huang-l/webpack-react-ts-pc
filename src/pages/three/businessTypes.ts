@@ -25,6 +25,17 @@ export const geometryConfigs = {
       { key: "1", x: 0, y: 0, z: 0 },
       { key: "2", x: 50, y: 0, z: 0 },
       { key: "3", x: 0, y: 100, z: 0 },
+      { key: "4", x: 0, y: 0, z: 0 },
+      { key: "5", x: 0, y: 0, z: 100 },
+      { key: "6", x: 50, y: 0, z: 0 },
+    ],
+    normalList: [
+      { key: "1", x: 0, y: 0, z: 1 },
+      { key: "2", x: 0, y: 0, z: 1 },
+      { key: "3", x: 0, y: 0, z: 1 },
+      { key: "4", x: 0, y: 1, z: 0 },
+      { key: "5", x: 0, y: 1, z: 0 },
+      { key: "6", x: 0, y: 1, z: 0 },
     ],
   },
   BoxGeometry: {
