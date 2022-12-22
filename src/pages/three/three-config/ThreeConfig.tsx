@@ -209,6 +209,8 @@ const ThreeConfig = () => {
     let material = null;
     let model = null;
     let { color } = config.mConfig;
+    const textureLoader = new THREE.TextureLoader();
+    const texture = textureLoader.load("/static/home.svg");
     switch (config.model) {
       case "point":
         material = new THREE.PointsMaterial({
@@ -226,6 +228,7 @@ const ThreeConfig = () => {
       case "mesh":
         material = new THREE[config.material]({
           color: hexToNum(color), //三角面颜色
+          map: texture,
         });
         model = new THREE.Mesh(geometry, material);
         break;
