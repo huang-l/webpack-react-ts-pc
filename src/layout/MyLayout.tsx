@@ -4,6 +4,7 @@ import { Layout, Menu, Dropdown, Modal, message } from "antd";
 import {
   HomeOutlined,
   FolderOpenOutlined,
+  CalculatorOutlined,
   DownOutlined,
   ExclamationCircleFilled,
 } from "@ant-design/icons";
@@ -30,6 +31,7 @@ const MyLayout = () => {
     () => [
       { label: "首页", key: "/", icon: <HomeOutlined /> },
       { label: "项目", key: "/project", icon: <FolderOpenOutlined /> },
+      { label: "计算器", key: "/calculator", icon: <CalculatorOutlined /> },
     ],
     []
   );

@@ -9,6 +9,7 @@ const Project = lazy(() => import("@/pages/project/Project"));
 const ProjectConfig = lazy(
   () => import("@/pages/project-config/ProjectConfig")
 );
+const Calculator = lazy(() => import("@/pages/calculator/Calculator"));
 
 const lazyLoad = (childNode: ReactNode) => {
   return <Suspense fallback={<Spin />}>{childNode}</Suspense>;
@@ -21,6 +22,7 @@ const routeConfig = [
     children: [
       { path: "", element: lazyLoad(<Home />) },
       { path: "project", element: lazyLoad(<Project />) },
+      { path: "calculator", element: lazyLoad(<Calculator />) },
     ],
   },
   { path: "/login", element: lazyLoad(<Login />) },
