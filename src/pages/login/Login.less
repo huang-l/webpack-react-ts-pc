@@ -1,0 +1,27 @@
+.login-wrapper {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  padding: 20px;
+  box-shadow: 1px 1px 10px #000;
+  .title {
+    line-height: 80px;
+    font-size: 30px;
+    text-align: center;
+    color: #fff;
+  }
+  .form {
+    text-align: center;
+    .login-btn {
+      width: 50%;
+      margin: 0 auto;
+    }
+  }
+  :global {
+    .ant-form-item .ant-form-item-label > label {
+      color: #fff;
+    }
+  }
+}

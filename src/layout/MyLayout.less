@@ -1,0 +1,19 @@
+.system-layout {
+  height: 100%;
+  .system-header {
+    height: 48px;
+    padding: 0 30px;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .main-layout {
+    height: calc(100% - 48px);
+    .system-menu,
+    .system-main {
+      height: 100%;
+      overflow: auto;
+    }
+  }
+}
