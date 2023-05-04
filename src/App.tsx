@@ -1,3 +1,4 @@
+import { hot } from "react-hot-loader/root";
 import React from "react";
 import routeConfig from "./router/index";
 import { useRoutes } from "react-router";
@@ -15,4 +16,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default hot(App);

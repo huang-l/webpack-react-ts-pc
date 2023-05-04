@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from "react";
+import React, { useMemo, useState, useEffect, useLayoutEffect } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
 import { Layout, Menu, Dropdown, Modal, message } from "antd";
 import {
@@ -38,11 +38,14 @@ const MyLayout = () => {
 
   const [selectKey, setSelectKey] = useState("/");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const token = cookieService.getCookie("token");
     if (!token) {
       navigate("/login");
     }
+  }, [location.pathname]);
+
+  useEffect(() => {
     setSelectKey(location.pathname);
   }, [location.pathname]);
 

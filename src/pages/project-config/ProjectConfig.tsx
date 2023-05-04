@@ -1,6 +1,7 @@
-import React, { useRef, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import React, { useRef, useState, useCallback, useLayoutEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { cloneDeep } from "lodash";
+import cookieService from "@/util/cookieService";
 import { boxConfigList, contentConfigList } from "./components/config";
 import ConfigHeader from "./header/ConfigHeader";
 import Page from "./page/Page";
@@ -11,6 +12,7 @@ import styles from "./ProjectConfig.less";
 
 const ProjectConfig = () => {
   const params = useParams();
+  const navigate = useNavigate();
 
   const [canvasStyle, setCanvasStyle] = useState({ width: 700, height: 500 }); // 画布样式
   const [pageId, setPageId] = useState(0); // 选中的页面
@@ -43,6 +45,13 @@ const ProjectConfig = () => {
   >([]); // 当前选中页面所有组件集合
   const [compKey, setCompKey] = useState(""); // 选中的组件
   const [rightKey, setRightKey] = useState("comp"); //右侧选中tab
+
+  useLayoutEffect(() => {
+    const token = cookieService.getCookie("token");
+    if (!token) {
+      navigate("/login");
+    }
+  }, []);
 
   // 修改画布样式
   const changeCanvasStyle = useCallback(
